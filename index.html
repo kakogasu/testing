@@ -287,20 +287,6 @@ button.on, button.on:hover { background: var(--ink); color: var(--paper); }
 .score b { font: 400 44px/1.1 var(--hand); }
 .score .maru { top: 0; left: 0; right: 0; bottom: 0; border-width: 2.5px; border-radius: 50%; animation-duration: .7s; animation-delay: .15s; }
 
-/* "Kurangi gerakan" di perangkat: gerak besar diganti efek memudar.
-   Pengguna bisa memilih animasi penuh lewat halaman About. */
-@media (prefers-reduced-motion: reduce) {
-  :root:not([data-motion="full"]) .fc.slide-l,
-  :root:not([data-motion="full"]) .fc.slide-r,
-  :root:not([data-motion="full"]) .fc.flip-in,
-  :root:not([data-motion="full"]) .item,
-  :root:not([data-motion="full"]) .opt,
-  :root:not([data-motion="full"]) .fx .kc:not(.empty) { animation-name: fade; }
-  :root:not([data-motion="full"]) .fc.flip-out,
-  :root:not([data-motion="full"]) .opt.no,
-  :root:not([data-motion="full"]) .ans.shake,
-  :root:not([data-motion="full"]) .ans.wave .chip { animation: none; }
-}
 </style>
 </head>
 <body>
@@ -552,24 +538,7 @@ const SECTIONS = [
   { title: "About",      desc: "Isi website dan cara belajar", render: renderAbout, noChapter: true },
 ];
 
-/* Pilihan "animasi penuh" (menimpa pengaturan kurangi gerakan perangkat) */
-const MOTION_KEY = "nihongo-motion";
-
-function applyMotion() {
-  try { document.documentElement.dataset.motion = localStorage.getItem(MOTION_KEY) || ""; } catch (e) {}
-}
-
-function toggleMotion() {
-  try {
-    if (localStorage.getItem(MOTION_KEY) === "full") localStorage.removeItem(MOTION_KEY);
-    else localStorage.setItem(MOTION_KEY, "full");
-  } catch (e) {}
-  applyMotion();
-  renderAbout();
-}
-
 function initUI() {
-  applyMotion();
   if (!restoreState()) showHome();
 }
 
@@ -1308,8 +1277,6 @@ function flipChips(change) {
   change();
   renderOrderGame();
 
-  const calm = matchMedia("(prefers-reduced-motion: reduce)").matches && document.documentElement.dataset.motion !== "full";
-  if (calm) return;
   document.querySelectorAll("[data-w]").forEach(el => {
     const a = before.get(el.dataset.w);
     if (!a) return;
@@ -1562,11 +1529,6 @@ function renderAbout() {
         <li>Latih urutan kata di Susun Kata.</li>
         <li>Uji pemahaman lewat Kuis, lalu baca penjelasan jawabannya.</li>
       </ol>
-
-      <p><b>Animasi</b><br>
-         <span class="mu">Jika perangkatmu memakai pengaturan "kurangi gerakan", animasi hanya berupa efek memudar.
-         Aktifkan animasi penuh untuk menampilkan semua gerak.</span></p>
-      <button onclick="toggleMotion()">${document.documentElement.dataset.motion === "full" ? "Matikan animasi penuh" : "Aktifkan animasi penuh"}</button>
 
       ${store.ok ? "" : '<p class="mu">Penyimpanan browser tidak tersedia, jadi riwayat soal hanya berlaku selama halaman ini terbuka.</p>'}
       <p class="mu">Terjemahan, arti kata, dan ringkasan bunpou disusun sebagai alat bantu belajar.
