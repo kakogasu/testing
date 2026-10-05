@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Belajar Nihongo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #f7f9f8;
+  --grid: #d6e2e6;
+  --ink: #1b2a5a;
+  --line: #9aa7c2;
+  --mute: #5c6a7a;
+  --hl: #ffe66d;
+  --on-hl: #1b1b1b;
+  --ok: #1f7a4d;
+  --bad: #b3261e;
+  --hand: "Zen Kurenaido", "Hiragino Maru Gothic ProN", "Yu Gothic", sans-serif;
+  --body: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1f2a26; --grid: #2b3b34; --ink: #eef2ee; --line: #6c7f76;
+    --mute: #a9b8b0; --hl: #e8d44d; --ok: #7bd9a6; --bad: #ff8f86;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1f2a26; --grid: #2b3b34; --ink: #eef2ee; --line: #6c7f76;
+  --mute: #a9b8b0; --hl: #e8d44d; --ok: #7bd9a6; --bad: #ff8f86;
+}
+
+/* ---------- dasar ---------- */
+html, body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--body);
+  line-height: 1.6;
+}
+body {
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-attachment: fixed;
+}
+main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 28px 18px 56px;
+}
+h1 {
+  display: inline-block;
+  position: relative;
+  isolation: isolate;
+  margin: 0;
+  font: 400 36px/1.2 var(--hand);
+}
+h1::after {            /* coretan stabilo, satu kali saat halaman dibuka */
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -3px;
+  height: 7px;
+  background: var(--hl);
+  transform-origin: left;
+  animation: swipe .7s .15s ease-out both;
+}
+header p { margin: 4px 0 0; }
+.credit { display: flex; flex-wrap: wrap; justify-content: center; gap: 28px; margin: 20px 0; }
+.credit figure { margin: 0; width: 130px; text-align: center; }
+.credit img, .credit .ph { display: block; width: 88px; height: 88px; margin: 0 auto 8px; }
+.credit img { object-fit: contain; }
+.credit .ph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px dashed var(--line);
+  color: var(--mute);
+  font-size: 12px;
+}
+.credit figcaption { color: var(--mute); font-size: 13px; line-height: 1.3; }
+.mu { color: var(--mute); font-size: 14px; }
+mark.slot { background: var(--hl); color: var(--on-hl); padding: 0 3px; border-radius: 2px; font-weight: 500; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* ---------- kontrol ---------- */
+button, select {
+  font: inherit;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 4px;
+  padding: 9px 14px;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+}
+button:hover, select:hover { background: var(--hl); color: var(--on-hl); }
+button:active { transform: translate(1px, 1px); }
+select { width: 100%; margin: 16px 0 0; }
+.pri, .pri:hover { background: var(--ink); color: var(--paper); }
+.pri:hover { opacity: .88; }
+[hidden] { display: none !important; }
+#bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 20px;
+}
+#bar b { font: 400 22px var(--hand); }
+
+/* ---------- menu ---------- */
+.sheet, .box {
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 4px;
+}
+.menu { margin-top: 22px; }
+.item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 18px 20px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.item + .item { border-top: 1.5px dashed var(--line); }
+.item:hover { background: transparent; color: var(--ink); }
+.item b {
+  font: 400 24px var(--hand);
+  padding: 0 4px;
+  margin-left: -4px;
+  background: linear-gradient(var(--hl), var(--hl)) no-repeat left center / 0% 100%;
+  transition: background-size .25s, color .25s;
+}
+.item:hover b,
+.item:focus-visible b {
+  background-size: 100% 100%;
+  color: var(--on-hl);
+}
+.menu.dense .item { padding: 12px 20px; }
+.item small .tr { color: var(--ink); font-style: italic; }
+.item small { display: block; margin-top: 2px; color: var(--mute); font-size: 14px; }
+
+/* ---------- konten ---------- */
+.box { padding: 22px; margin-top: 16px; }
+.jp { font-size: 28px; line-height: 1.5; }
+.ro { color: var(--mute); margin-top: 6px; }
+.meaning { font-size: 19px; }
+.row {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+}
+
+/* flashcard: tiap huruf di kotak seperti kertas genko-yoshi */
+.fc {
+  min-height: 210px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  cursor: pointer;
+}
+.gy { display: flex; flex-wrap: wrap; justify-content: center; padding: 1px 0 0 1px; }
+.cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35em; height: 1.35em;
+  margin: -1px 0 0 -1px;
+  border: 1px solid var(--line);
+  font-size: 26px;
+}
+.words { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 14px; }
+.w {
+  display: flex;
+  flex-direction: column;
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+}
+.w b { font-size: 17px; font-weight: 500; }
+.w small { color: var(--mute); font-size: 12px; }
+
+/* kuis */
+.bar { height: 6px; background: var(--grid); margin: 6px 0 14px; }
+.bar i { display: block; height: 100%; background: var(--ink); transition: width .4s; }
+.opt { display: block; width: 100%; text-align: left; margin-top: 8px; }
+.opt.ok { border-color: var(--ok); background: color-mix(in srgb, var(--ok) 16%, var(--paper)); color: var(--ink); }
+.opt.no { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 14%, var(--paper)); color: var(--ink); }
+.ex {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-left: 4px solid var(--hl);
+  background: color-mix(in srgb, var(--hl) 20%, var(--paper));
+  font-size: 14px;
+}
+.yes { color: var(--ok); }
+.nope { color: var(--bad); }
+
+/* susun kata */
+.ans { min-height: 58px; margin: 14px 0; padding-bottom: 6px; border-bottom: 1.5px solid var(--ink); }
+.chip { margin: 4px; padding: 8px 12px; font-size: 20px; }
+
+/* about */
+.about h2 { margin: 0 0 8px; font: 400 26px var(--hand); }
+.about dt { margin-top: 10px; font-weight: 700; }
+.about dd { margin: 2px 0 0; color: var(--mute); font-size: 14px; }
+.about ol { padding-left: 20px; font-size: 14px; line-height: 1.8; }
+
+/* hiragana dan katakana */
+button.on, button.on:hover { background: var(--ink); color: var(--paper); }
+.kgroup { margin-top: 20px; }
+.kgroup h3 { margin: 0 0 8px; font: 400 20px var(--hand); }
+.kgrid { display: grid; grid-template-columns: repeat(var(--cols), 1fr); max-width: 420px; padding: 1px 0 0 1px; }
+.kc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  margin: -1px 0 0 -1px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--paper);
+}
+.kc b { font-size: 26px; font-weight: 500; line-height: 1.1; }
+.kc small { font-size: 12px; color: var(--mute); transition: opacity .2s; }
+.kc:hover small { color: var(--on-hl); }
+.kc.empty { border-color: transparent; background: transparent; pointer-events: none; }
+.hide .kc:not(.shown) small { opacity: 0; }
+
+/* ---------- gerak ---------- */
+@keyframes swipe { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+/* animasi: hanya yang menanggapi aksi, ditambah satu momen saat daftar dibuka */
+@keyframes inkin  { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes fade   { from { opacity: 0; } to { opacity: 1; } }
+@keyframes sweep  { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes shake  { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+@keyframes slide-l { from { opacity: 0; transform: translateX(32px); } to { opacity: 1; transform: none; } }
+@keyframes slide-r { from { opacity: 0; transform: translateX(-32px); } to { opacity: 1; transform: none; } }
+@keyframes flip-out { to { transform: perspective(700px) rotateY(90deg); opacity: .4; } }
+@keyframes flip-in  { from { transform: perspective(700px) rotateY(-90deg); opacity: .4; } to { transform: none; opacity: 1; } }
+@keyframes drop { from { opacity: 0; transform: translateY(-14px) scale(.9); } to { opacity: 1; transform: none; } }
+@keyframes hop  { 40% { transform: translateY(-10px); } }
+@keyframes grow { from { width: var(--from, 0%); } }
+
+#v.enter { animation: fade .25s ease-out; }
+.item { animation: inkin .35s both; animation-delay: min(calc(var(--n, 0) * 40ms), 500ms); }
+.opt { position: relative; animation: inkin .3s both; animation-delay: calc(var(--n, 0) * 50ms); }
+.opt.ok { animation: none; }
+.opt.no { animation: shake .4s; }
+.fc.slide-l { animation: slide-l .25s ease-out; }
+.fc.slide-r { animation: slide-r .25s ease-out; }
+.fc.flip-out { animation: flip-out .14s ease-in forwards; }
+.fc.flip-in { animation: flip-in .2s ease-out; }
+.bar i { animation: grow .5s ease-out; }
+.item.all { border-top: 1.5px solid var(--ink); }
+.chip { position: relative; }
+.ans.shake { animation: shake .4s; }
+.ans.wave .chip { animation: hop .4s ease-out; animation-delay: calc(var(--i, 0) * 60ms); }
+.fx .kc:not(.empty) { animation: inkin .3s both; animation-delay: min(calc(var(--n, 0) * 12ms), 600ms); }
+
+/* tanda maru (lingkaran) seperti koreksi guru, tergambar dari kiri ke kanan */
+.maru {
+  position: absolute;
+  top: -1.5px; left: -1.5px; right: -1.5px; bottom: -1.5px;   /* menimpa garis tepi tombol */
+  border: 1.5px solid var(--ok);
+  border-radius: 4px;                                          /* sama dengan bentuk tombol */
+  pointer-events: none;
+  animation: sweep .45s ease-out both;
+}
+.score { position: relative; display: inline-block; padding: 10px 36px; margin: 4px 0 14px; text-align: center; }
+.score span { display: block; font-size: 13px; color: var(--mute); }
+.score b { font: 400 44px/1.1 var(--hand); }
+.score .maru { top: 0; left: 0; right: 0; bottom: 0; border-width: 2.5px; border-radius: 50%; animation-duration: .7s; animation-delay: .15s; }
+
+/* "Kurangi gerakan" di perangkat: gerak besar diganti efek memudar.
+   Pengguna bisa memilih animasi penuh lewat halaman About. */
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="full"]) .fc.slide-l,
+  :root:not([data-motion="full"]) .fc.slide-r,
+  :root:not([data-motion="full"]) .fc.flip-in,
+  :root:not([data-motion="full"]) .item,
+  :root:not([data-motion="full"]) .opt,
+  :root:not([data-motion="full"]) .fx .kc:not(.empty) { animation-name: fade; }
+  :root:not([data-motion="full"]) .fc.flip-out,
+  :root:not([data-motion="full"]) .opt.no,
+  :root:not([data-motion="full"]) .ans.shake,
+  :root:not([data-motion="full"]) .ans.wave .chip { animation: none; }
+}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Belajar Nihongo</h1>
+    <p class="mu">Materi buku pelajaran Bab 1 sampai 24</p>
+  </header>
+  <div id="bar" hidden>
+    <button id="back" onclick="goBack()">Kembali ke menu</button>
+    <b id="title"></b>
+  </div>
+  <div id="v"></div>
+</main>
+<script>
+/* =========================================================
+   0. KREDIT LOGO  <-- ISI LOGO DI SINI
+   Tampil di halaman About. Isi "src" dan "name" untuk tiap logo:
+   - src: data URI gambar, contoh "data:image/png;base64,iVBORw0KGgo..."
+          (dipakai jika halaman dipublikasikan sebagai link), atau
+          nama file di folder yang sama, contoh "logo-universitas.png"
+          (dipakai jika file HTML dibuka langsung dari komputer).
+   - name: tulisan di bawah logo (kosongkan "" untuk menyembunyikan).
+   Selama "src" kosong, yang tampil hanya kotak putus-putus.
+   ========================================================= */
+const CREDIT_LOGOS = [
+  { src: "", alt: "Logo universitas", name: "Nama universitas" },
+  { src: "", alt: "Logo sekolah",     name: "Nama sekolah" },
+];
+
+/* =========================================================
+   1. DATA MATERI
+   Format kalimat: "kata kata kata~romaji~arti"
+   Spasi memisahkan kata (dipakai game Susun Kata & flashcard).
+   ========================================================= */
+const CHAPTERS_RAW = [
+[1,"はじめまして","Pola 「N です」 = 'adalah N'. Dipakai untuk memperkenalkan diri. Nama asing ditulis dengan katakana.",["おはよう ございます~Ohayou gozaimasu~Selamat pagi (sopan)","こんにちは~Konnichiwa~Selamat siang","こんばんは~Konbanwa~Selamat malam","はじめまして~Hajimemashite~Salam kenal","アユ です~Ayu desu~Saya Ayu","どうぞ よろしく おねがいします~Douzo yoroshiku onegaishimasu~Mohon bantuannya","わたし は アユ です~Watashi wa Ayu desu~Saya Ayu","わたし は がくせい です~Watashi wa gakusei desu~Saya seorang pelajar","わたし は こうこう の がくせい です~Watashi wa koukou no gakusei desu~Saya pelajar SMA","インドネシア の がくせい です~Indoneshia no gakusei desu~(Saya) pelajar Indonesia"],{"vocab": "おやすみなさい=selamat tidur,はい=ya,いいえ=tidak,さん=Bapak/Ibu/Saudara (sufiks nama),なまえ=nama,がくせい=pelajar,こうこう=SMA,ねんせい=siswa tahun ke-,だれ=siapa,なん=apa,インドネシア=Indonesia,ひらがな=hiragana,カタカナ=katakana,あいさつ=salam / sapaan,いちねんせい=siswa kelas 1 (kelas X),にねんせい=siswa kelas 2 (kelas XI),さんねんせい=siswa kelas 3 (kelas XII)", "qa": [["Kamu bertemu temanmu pada pagi hari. Apa yang kamu ucapkan (sopan)?", "おはよう ございます", "こんばんは", "さようなら", "はじめまして", "Pagi hari: おはようございます (sopan) atau おはよう (akrab). こんばんは dipakai malam hari, さようなら untuk berpisah, はじめまして untuk pertama kali bertemu."], ["Ungkapan apa yang dipakai saat bertemu seseorang untuk pertama kali?", "はじめまして", "こんにちは", "おはよう", "こんばんは", "はじめまして = salam kenal, diucapkan sebelum menyebutkan nama."], ["Malam hari kamu bertemu guru. Apa yang kamu ucapkan?", "こんばんは", "こんにちは", "おはよう ございます", "ありがとう", "こんばんは dipakai sejak sore menjelang malam."], ["Setelah memperkenalkan diri, kamu menutup dengan...", "どうぞ よろしく おねがいします", "さようなら", "こんにちは", "はじめまして", "どうぞ よろしく おねがいします = mohon bantuan / kerja samanya, ucapan penutup perkenalan."]]}],
+[2,"ありがとう","「〜ください」 = tolong lakukan; 「〜ですか」 = kalimat tanya; 「いいですか」 = bolehkah?",["ありがとう ございます~Arigatou gozaimasu~Terima kasih (sopan)","さようなら~Sayounara~Selamat tinggal","じゃ、 また~Ja, mata~Sampai jumpa lagi","みて ください~Mite kudasai~Tolong lihat","もう いちど おねがいします~Mou ichido onegaishimasu~Tolong sekali lagi","すみません、 トイレ、 いいですか~Sumimasen, toire, ii desu ka~Permisi, bolehkah (ke) toilet?","いいですよ どうぞ~Ii desu yo. Douzo~Boleh, silakan","ありがとう ございます、 せんせい~Arigatou gozaimasu, sensei~Terima kasih, Pak/Bu guru","ごめんなさい、 もう いちど おねがいします~Gomennasai, mou ichido onegaishimasu~Maaf, tolong sekali lagi","せんせい、 じゃ、 また~Sensei, ja, mata~Pak/Bu guru, sampai jumpa lagi","どうぞ、 みて ください~Douzo, mite kudasai~Silakan, tolong lihat"],{"vocab": "ごめんなさい=maaf,どういたしまして=sama-sama,おつかれさま=terima kasih atas kerja kerasnya,いただきます=selamat makan,ごちそうさま=terima kasih atas makanannya,ただいま=aku pulang,おかえりなさい=selamat datang kembali,いってきます=aku berangkat,いってらっしゃい=hati-hati di jalan,おげんきですか=apa kabar?,げんきです=baik-baik saja,きりつ=berdiri (aba-aba),れい=hormat (aba-aba),ちゃくせき=duduk (aba-aba)", "qa": [["Kamu ingin izin ke toilet kepada guru. Apa yang kamu ucapkan?", "すみません、 トイレ、 いいですか", "ありがとう ございます", "じゃ、 また", "みて ください", "すみません、トイレ、いいですか = permisi, bolehkah (saya ke) toilet?"], ["Guru menjawab izinmu dengan 「いいですよ。どうぞ」. Artinya...", "Boleh, silakan", "Maaf, tidak boleh", "Tolong lihat", "Sampai jumpa", "いいですよ = boleh, どうぞ = silakan."], ["Kamu tidak mendengar penjelasan guru dan ingin diulang. Kamu berkata...", "もう いちど おねがいします", "みて ください", "じゃ、 また", "ありがとう ございます", "もういちど おねがいします = tolong sekali lagi."], ["Kamu berpisah dengan teman yang akan bertemu lagi besok. Kamu berkata...", "じゃ、 また", "ありがとう", "みて ください", "すみません", "じゃ、また = sampai jumpa lagi."], ["Kamu meminta temanmu melihat ke papan tulis. Kamu berkata...", "みて ください", "もう いちど おねがいします", "いいですよ", "さようなら", "〜て ください = tolong lakukan 〜. みて ください = tolong lihat."]]}],
+[3,"わたしの ゆめは かしゅです","<b>Tanggal</b>: 〜がつ (bulan) + 〜にち (hari).<br>わたしの たんじょうびは <mark class='slot'>ごがつ みっか</mark> です。<br><br><b>Bulan</b> = angka + がつ: いちがつ, にがつ, さんがつ, ごがつ, ろくがつ, はちがつ, じゅうがつ, じゅういちがつ, じゅうにがつ. Kecuali <b>4月 しがつ</b>, <b>7月 しちがつ</b>, <b>9月 くがつ</b>.<br><br><b>Tanggal</b> = angka + にち: じゅうさんにち (13), にじゅうさんにち (23), さんじゅうにち (30).<br>Bacaan khusus (<i>tokubetsu na yomikata</i>): 1 ついたち, 2 ふつか, 3 みっか, 4 よっか, 5 いつか, 6 むいか, 7 なのか, 8 ようか, 9 ここのか, 10 とおか, 14 じゅうよっか, 20 はつか, 24 にじゅうよっか.<br><br><b>Cita-cita</b>: ゆめは <mark class='slot'>いしゃ</mark> です。 「の」 menyatakan kepemilikan (わたしの ゆめ).",["1がつ23にち~Ichi-gatsu ni-juu-san-nichi~23 Januari","たんじょうび は 5がつ 3っか です~Tanjoubi wa go-gatsu mikka desu~Ulang tahunku 3 Mei","ゆめ は いしゃ です~Yume wa isha desu~Cita-citaku dokter","わたし の ゆめ は かしゅ です~Watashi no yume wa kashu desu~Cita-citaku penyanyi","わたし の たんじょうび は 4がつ 30にち です~Watashi no tanjoubi wa shi-gatsu san-juu-nichi desu~Ulang tahunku 30 April","たんじょうび は じゅうにがつ にじゅうよっか です~Tanjoubi wa juuni-gatsu nijuuyokka desu~Ulang tahunku 24 Desember","わたし の たんじょうび は ろくがつ はつか です~Watashi no tanjoubi wa roku-gatsu hatsuka desu~Ulang tahunku 20 Juni","ゆめ は エンジニア です~Yume wa enjinia desu~Cita-citaku insinyur","わたし の ゆめ は パイロット です~Watashi no yume wa pairotto desu~Cita-citaku pilot","ともだち の たんじょうび は しちがつ なのか です~Tomodachi no tanjoubi wa shichi-gatsu nanoka desu~Ulang tahun temanku 7 Juli"],{dates:true,vocab:"いちがつ=ichi-gatsu=Januari,にがつ=ni-gatsu=Februari,さんがつ=san-gatsu=Maret,しがつ=shi-gatsu=April,ごがつ=go-gatsu=Mei,ろくがつ=roku-gatsu=Juni,しちがつ=shichi-gatsu=Juli,はちがつ=hachi-gatsu=Agustus,くがつ=ku-gatsu=September,じゅうがつ=juu-gatsu=Oktober,じゅういちがつ=juuichi-gatsu=November,じゅうにがつ=juuni-gatsu=Desember,ついたち=tsuitachi=tanggal 1,ふつか=futsuka=tanggal 2,みっか=mikka=tanggal 3,よっか=yokka=tanggal 4,いつか=itsuka=tanggal 5,むいか=muika=tanggal 6,なのか=nanoka=tanggal 7,ようか=youka=tanggal 8,ここのか=kokonoka=tanggal 9,とおか=tooka=tanggal 10,じゅうよっか=juuyokka=tanggal 14,はつか=hatsuka=tanggal 20,にじゅうよっか=nijuuyokka=tanggal 24,なんがつ=nangatsu=bulan berapa,なんにち=nannichi=tanggal berapa,かんごし=perawat,エンジニア=insinyur,パイロット=pilot,けいさつかん=polisi,りょうりにん=koki,べんごし=pengacara,うんてんしゅ=sopir,だいがくせい=mahasiswa,おめでとう=selamat,けんちくか=arsitek,ぎんこういん=pegawai bank,しょうぼうし=pemadam kebakaran,デザイナー=desainer,プログラマー=programmer,ジャーナリスト=jurnalis,けんきゅうしゃ=peneliti,スポーツせんしゅ=atlet,かいしゃいん=karyawan perusahaan,こうむいん=pegawai negeri"}],
+[4,"ちちは スポーツが すきです","「N が すき です」 = suka N. Partikel 「ね」 meminta persetujuan. Adjektiva-i/na + です untuk menyatakan ciri.",["これ は はは です~Kore wa haha desu~Ini ibu saya","ともだち は かわいい です~Tomodachi wa kawaii desu~Temanku imut","かっこいい です ね~Kakkoii desu ne~Keren ya","いもうと は アニメ が すき です~Imouto wa anime ga suki desu~Adikku suka anime","これ は あね です~Kore wa ane desu~Ini kakak perempuanku","あに は スポーツ が すき です~Ani wa supootsu ga suki desu~Kakak laki-lakiku suka olahraga","そふ は やさしい です~Sofu wa yasashii desu~Kakekku baik hati","おとうと は ゲーム が すき です~Otouto wa geemu ga suki desu~Adik laki-lakiku suka permainan"],{"vocab": "ちち=ayah (saya),あに=kakak laki-laki (saya),あね=kakak perempuan (saya),おとうと=adik laki-laki (saya),そふ=kakek (saya),そぼ=nenek (saya),かぞく=keluarga,おとうさん=ayah (orang lain),おかあさん=ibu (orang lain),おにいさん=kakak laki-laki (orang lain),おねえさん=kakak perempuan (orang lain),すてき=indah / menawan,おおきい=besar,ちいさい=kecil,スポーツ=olahraga,しゃしん=foto,どうきゅうせい=teman sekelas,せんぱい=kakak kelas / senior,こうはい=adik kelas / junior,しんゆう=sahabat,なかま=rekan / kawan"}],
+[5,"りょうりが できます","「N が できます」 = bisa N. 「〜ましょう」 = ajakan 'mari'. 「〜て ください」 = permintaan.",["わたし は シラット が できます~Watashi wa silat ga dekimasu~Saya bisa silat","いいですね~Ii desu ne~Bagus ya","すごい です ね~Sugoi desu ne~Hebat ya","こんど おしえて ください~Kondo oshiete kudasai~Lain kali tolong ajari","こんど いっしょ に しましょう~Kondo issho ni shimashou~Lain kali mari lakukan bersama","わたし は ピアノ が できます~Watashi wa piano ga dekimasu~Saya bisa bermain piano","ともだち は サッカー が じょうず です~Tomodachi wa sakkaa ga jouzu desu~Temanku mahir bermain sepak bola","わたし は ギター が へた です~Watashi wa gitaa ga heta desu~Saya kurang mahir bermain gitar","こんど バドミントン を しましょう~Kondo badominton o shimashou~Lain kali mari main bulu tangkis","いもうと は ダンス が できます~Imouto wa dansu ga dekimasu~Adikku bisa menari"],{"vocab": "じょうず=mahir,へた=kurang mahir,うた=lagu,ピアノ=piano,ギター=gitar,サッカー=sepak bola,バスケットボール=bola basket,バドミントン=bulu tangkis,ダンス=dansa,ゲーム=permainan,およぎ=renang,カラオケ=karaoke,えいが=film,はっぴょう=presentasi,えんぜつ=pidato,ディスカッション=diskusi,グループ=kelompok,リーダー=ketua / pemimpin,チーム=tim,プログラミング=pemrograman"}],
+[6,"ここは としょしつです","Kata tempat: ここ (sini), そこ, あそこ. Pola 「N は ここ です」. 「きれい」 adalah adjektiva-na.",["ここ は こうちょうしつ です~Koko wa kouchoushitsu desu~Ini ruang kepala sekolah","カンティン は ここ です~Kantin wa koko desu~Kantin di sini","ろうか は きれい です~Rouka wa kirei desu~Koridornya bersih","ここ は としょしつ です~Koko wa toshoshitsu desu~Ini perpustakaan","ほけんしつ は あそこ です~Hokenshitsu wa asoko desu~UKS ada di sana","うんどうじょう は ひろい です~Undoujou wa hiroi desu~Lapangan olahraga luas","かいだん は そこ です~Kaidan wa soko desu~Tangga ada di situ","トイレ は どこ です か~Toire wa doko desu ka~Toilet di mana?"],{"vocab": "としょしつ=perpustakaan,きょうしつ=ruang kelas,しょくいんしつ=ruang guru,ほけんしつ=UKS,たいいくかん=gedung olahraga,こうてい=halaman sekolah,げんかん=pintu masuk,かいだん=tangga,おんがくしつ=ruang musik,びじゅつしつ=ruang seni rupa,うんどうじょう=lapangan olahraga,ばいてん=koperasi,そこ=situ,あそこ=sana,どこ=di mana,じっけんしつ=laboratorium,コンピューターしつ=ruang komputer,こくばん=papan tulis,じむしつ=ruang tata usaha,もん=gerbang,ちゅうしゃじょう=tempat parkir"}],
+[7,"にほんごは かようびです","「hari + に」 = pada hari itu. 「と」 = dan (antar nomina). 「を」 = penanda objek.",["たいいく は すいようび です~Taiiku wa sui-youbi desu~Olahraga hari Rabu","きんようび に げいじゅつ を べんきょうします~Kin-youbi ni geijutsu o benkyou-shimasu~Hari Jumat belajar seni","にほんご は すいようび と きんようび です~Nihongo wa sui-youbi to kin-youbi desu~Bahasa Jepang hari Rabu dan Jumat","すうがく は もくようび です~Suugaku wa mokuyoubi desu~Matematika hari Kamis","どようび に インドネシアご を べんきょうします~Doyoubi ni Indoneshiago o benkyou-shimasu~Hari Sabtu belajar bahasa Indonesia","かようび に びじゅつ を べんきょうします~Kayoubi ni bijutsu o benkyou-shimasu~Hari Selasa belajar seni rupa","りか は げつようび と もくようび です~Rika wa getsuyoubi to mokuyoubi desu~IPA hari Senin dan Kamis"],{"vocab": "げつようび=Senin,かようび=Selasa,すいようび=Rabu,もくようび=Kamis,きんようび=Jumat,どようび=Sabtu,にちようび=Minggu,なんようび=hari apa,すうがく=matematika,インドネシアご=bahasa Indonesia,りか=IPA,しゃかい=IPS,びじゅつ=seni rupa,じかんわり=jadwal pelajaran,じゅぎょう=pelajaran,れきし=sejarah,ちり=geografi,ぶつり=fisika,かがく=kimia,せいぶつ=biologi,けいざい=ekonomi,ぎじゅつ=teknologi,テスト=ulangan,てん=nilai / skor,せいせき=prestasi / hasil belajar,つうしんぼ=rapor,きょうかしょ=buku pelajaran,やすみじかん=waktu istirahat"}],
+[8,"いっしょに たべませんか","「で」 = tempat kegiatan, 「と」 = bersama siapa. 「〜ませんか」 = mengajak, 「〜ましょう」 = menerima ajakan.",["ナシ・ゴレン を たべます~Nasi goreng o tabemasu~Makan nasi goreng","きょうしつ で たべます~Kyoushitsu de tabemasu~Makan di kelas","ともだち と たべます~Tomodachi to tabemasu~Makan bersama teman","ひとり で たべます~Hitori de tabemasu~Makan sendiri","いっしょ に たべませんか~Issho ni tabemasen ka~Maukah makan bersama?","たべましょう~Tabemashou~Mari makan","ひるごはん に ラーメン を たべます~Hirugohan ni raamen o tabemasu~Makan siang dengan ramen","しょくどう で ともだち と たべます~Shokudou de tomodachi to tabemasu~Makan bersama teman di kantin","おちゃ を のみます~Ocha o nomimasu~Minum teh","いっしょ に カレー を たべませんか~Issho ni karee o tabemasen ka~Maukah makan kari bersama?","べんとう を ひとり で たべます~Bentou o hitori de tabemasu~Makan bekal sendirian"],{"vocab": "ひるごはん=makan siang,べんとう=bekal,しょくどう=kantin,みず=air putih,おちゃ=teh,コーヒー=kopi,ジュース=jus,パン=roti,ラーメン=ramen,すし=sushi,さかな=ikan,にく=daging,カレー=kari,のみます=minum,サテ=sate"}],
+[9,"せんせいは やさしいです","「います」 untuk keberadaan makhluk hidup. 「N の となり」 = di sebelah N. 「きびしい」 adjektiva-i.",["アイせんせい は えいご の せんせい です~Ai-sensei wa eigo no sensei desu~Bu Ai guru bahasa Inggris","トトせんせい は きびしい です~Toto-sensei wa kibishii desu~Pak Toto tegas","リドせんせい は ラフミせんせい の となり に います~Rido-sensei wa Rahmi-sensei no tonari ni imasu~Pak Rido di sebelah Bu Rahmi","アイせんせい は やさしい です~Ai-sensei wa yasashii desu~Bu Ai baik hati","ラフミせんせい は おもしろい です~Rahmi-sensei wa omoshiroi desu~Bu Rahmi lucu / menarik","リドせんせい は トトせんせい の まえ に います~Rido-sensei wa Toto-sensei no mae ni imasu~Pak Rido ada di depan Pak Toto","こうちょうせんせい は しんせつ です~Kouchou-sensei wa shinsetsu desu~Kepala sekolah ramah","わたし は ともだち の うしろ に います~Watashi wa tomodachi no ushiro ni imasu~Saya ada di belakang temanku"],{"vocab": "やさしい=baik hati,おもしろい=lucu / menarik,こわい=menakutkan / galak,しんせつ=ramah,まえ=depan,うしろ=belakang,みぎ=kanan,ひだり=kiri,あいだ=antara,クラス=kelas,こうちょうせんせい=kepala sekolah,せいと=murid,たんにん=wali kelas,きょうし=guru (profesi),しつもん=pertanyaan,こたえ=jawaban,もんだい=soal / masalah"}],
+[10,"ほうきは たなの よこです","「あります」 untuk benda mati; negatif 「ありません」. Posisi: うえ (atas), よこ (samping), となり.",["きょうしつ に ごみばこ と ほうき が あります~Kyoushitsu ni gomibako to houki ga arimasu~Di kelas ada tempat sampah dan sapu","プロジェクター は つくえ の うえ です~Purojekutaa wa tsukue no ue desu~Proyektor di atas meja","すみません、 ありません~Sumimasen, arimasen~Maaf, tidak ada","つくえ の うえ に ノート が あります~Tsukue no ue ni nooto ga arimasu~Di atas meja ada buku catatan","ロッカー は ドア の となり です~Rokkaa wa doa no tonari desu~Loker ada di sebelah pintu","まど の した に ごみばこ が あります~Mado no shita ni gomibako ga arimasu~Di bawah jendela ada tempat sampah","とけい は かべ の うえ です~Tokei wa kabe no ue desu~Jam ada di atas dinding","きょうしつ に いす が あります~Kyoushitsu ni isu ga arimasu~Di kelas ada kursi"],{"vocab": "つくえ=meja,いす=kursi,たな=rak,ホワイトボード=papan tulis putih,ロッカー=loker,とけい=jam dinding,カーテン=gorden,でんき=lampu,ドア=pintu,まど=jendela,かべ=dinding,ゆか=lantai,した=bawah,なか=dalam,そと=luar,ちりとり=pengki"}],
+[11,"すいようびに バティックを きます","「きます」 = memakai pakaian. Warna: しろ (putih), あか, あお. Hari + に = pada hari.",["きんようび に プラムカ の せいふく を きます~Kin-youbi ni pramuka no seifuku o kimasu~Hari Jumat memakai seragam pramuka","ベトナム の せいふく は しろ です~Betonamu no seifuku wa shiro desu~Seragam Vietnam putih","すいようび に バティック を きます~Suiyoubi ni batikku o kimasu~Hari Rabu memakai batik","くつ は くろ です~Kutsu wa kuro desu~Sepatu berwarna hitam","わたし の シャツ は しろ です~Watashi no shatsu wa shiro desu~Kemejaku berwarna putih","スカート は あか です~Sukaato wa aka desu~Rok berwarna merah","ズボン は ちゃいろ です~Zubon wa chairo desu~Celana berwarna cokelat"],{"vocab": "ふく=baju,シャツ=kemeja,ズボン=celana,スカート=rok,くつ=sepatu,くつした=kaos kaki,ネクタイ=dasi,ベルト=ikat pinggang,バティック=batik,ジャケット=jaket,あか=merah,あお=biru,くろ=hitam,きいろ=kuning,みどり=hijau,ちゃいろ=cokelat,ピンク=merah muda,オレンジ=oranye,マレーシア=Malaysia,タイ=Thailand,フィリピン=Filipina,シンガポール=Singapura"}],
+[12,"ぶんかさいは 1がつ11にちでした","Lampau nomina: 「でした」; lampau verba: 「〜ました」. 「から〜まで」 = dari…sampai…. 「N の とき」 = ketika N. Cara membaca tanggal sama seperti Bab 3 (tanggal 9 = ここのか, 10 = とおか, 11 = じゅういちにち).",["ぶんかさい は 1がつ 9にち でした~Bunkasai wa ichi-gatsu kokonoka deshita~Festival budaya tanggal 9 Januari","キャンプ は 10がつ 10にち から 11にち まで でした~Kyanpu wa juu-gatsu tooka kara juu-ichi-nichi made deshita~Kemah 10–11 Oktober","ぶんかさい の とき、 おんがく を ききました~Bunkasai no toki, ongaku o kikimashita~Saat festival, mendengarkan musik","うんどうかい は じゅうがつ いつか でした~Undoukai wa juu-gatsu itsuka deshita~Pesta olahraga tanggal 5 Oktober","えんそく は にがつ ようか でした~Ensoku wa ni-gatsu youka deshita~Karyawisata tanggal 8 Februari","きのう コンサート で おんがく を ききました~Kinou konsaato de ongaku o kikimashita~Kemarin mendengarkan musik di konser","しけん は きのう でした~Shiken wa kinou deshita~Ujiannya kemarin","まつり は しゅうまつ でした~Matsuri wa shuumatsu deshita~Festivalnya akhir pekan"],{dates:true,vocab:"うんどうかい=pesta olahraga,そつぎょうしき=upacara kelulusan,にゅうがくしき=upacara penerimaan siswa baru,えんそく=karyawisata,しゅうがくりょこう=study tour,しけん=ujian,まつり=festival,しあい=pertandingan,コンサート=konser,きょう=hari ini,きのう=kemarin,あした=besok,おととい=kemarin lusa,しゅうまつ=akhir pekan,ぶかつ=kegiatan ekstrakurikuler,せいとかい=OSIS,ちょうれい=upacara pagi,クラブ=klub,ミーティング=rapat,ボランティア=sukarelawan,コンテスト=kontes / lomba"}],
+[13,"パダンに すんでいます","「に すんでいます」 = tinggal di. 「あります/います」 menyatakan lokasi.",["ジャカルタ に すんでいます~Jakarta ni sunde imasu~Tinggal di Jakarta","パダン は にしスマトラ に あります~Padan wa nishi-Sumatera ni arimasu~Padang ada di Sumatera Barat","ジョグジャカルタ は グドゥ が おいしい です~Jogjakarta wa gudeg ga oishii desu~Gudeg Jogja enak","うち は スマトラ に あります~Uchi wa Sumatora ni arimasu~Rumahku ada di Sumatra","ジャワ は にぎやか です~Jawa wa nigiyaka desu~Jawa itu ramai","うみ は まち の にし に あります~Umi wa machi no nishi ni arimasu~Laut ada di barat kota","わたし は むら に すんでいます~Watashi wa mura ni sunde imasu~Saya tinggal di desa","あたらしい アパート に すんでいます~Atarashii apaato ni sunde imasu~Tinggal di apartemen baru"],{"vocab": "まち=kota,むら=desa,いなか=kampung halaman,いえ=rumah,アパート=apartemen,にし=barat,ひがし=timur,みなみ=selatan,きた=utara,うみ=laut,やま=gunung,かわ=sungai,くに=negara,しま=pulau,スマトラ=Sumatra,ジャワ=Jawa,にぎやか=ramai,ゆうめい=terkenal,ふるい=lama,あたらしい=baru"}],
+[14,"よく そうじを します","Kekerapan: よく (sering). 「が」 pada subjek menandai pelaku pekerjaan.",["わたし は よく りょうり を します~Watashi wa yoku ryouri o shimasu~Saya sering memasak","ちち が そうじ を します~Chichi ga souji o shimasu~Ayah yang membersihkan","アイロン を かけます~Airon o kakemasu~Menyetrika","わたし は せんたく を します~Watashi wa sentaku o shimasu~Saya mencuci pakaian","いつも ちち が かいもの を します~Itsumo chichi ga kaimono o shimasu~Ayah selalu berbelanja","ときどき さらあらい を します~Tokidoki saraarai o shimasu~Kadang-kadang mencuci piring","いもうと は へや を かたづけます~Imouto wa heya o katazukemasu~Adikku membereskan kamar","はは は そうじき で そうじ を します~Haha wa soujiki de souji o shimasu~Ibu membersihkan dengan penyedot debu"],{"vocab": "せんたく=mencuci pakaian,かいもの=belanja,さらあらい=mencuci piring,すてます=membuang,てつだいます=membantu,かたづけます=membereskan,そうじき=penyedot debu,せんたくき=mesin cuci,ときどき=kadang-kadang,いつも=selalu,あまり=tidak begitu,ぜんぜん=sama sekali tidak,かじ=pekerjaan rumah tangga"}],
+[15,"いままで しゅくだいを します","Negatif adjektiva-i: 〜くない; adjektiva-na: 〜じゃない です. 「から」 = karena.",["わたし の へや は しずか じゃない です~Watashi no heya wa shizuka janai desu~Kamarku tidak tenang","にわ で でんわ を します~Niwa de denwa o shimasu~Menelepon di taman","いま は あかるい から です~Ima wa akarui kara desu~Karena sekarang terang","きゃくま に エアコン が あります~Kyakuma ni eakon ga arimasu~Ruang tamu ada AC","わたし の へや に ベッド が あります~Watashi no heya ni beddo ga arimasu~Di kamarku ada tempat tidur","だいどころ に れいぞうこ が あります~Daidokoro ni reizouko ga arimasu~Di dapur ada kulkas","きゃくま の テレビ は ふるい です~Kyakuma no terebi wa furui desu~TV di ruang tamu sudah tua","へや は せまい です~Heya wa semai desu~Kamarnya sempit","にわ は ひろい です~Niwa wa hiroi desu~Tamannya luas"],{"vocab": "ベッド=tempat tidur,れいぞうこ=kulkas,テーブル=meja makan,ソファ=sofa,テレビ=televisi,だいどころ=dapur,ふろ=kamar mandi (berendam),しんしつ=kamar tidur,くらい=gelap,ひろい=luas,せまい=sempit,きたない=kotor"}],
+[16,"しろい ねこが かいたいです","Adjektiva + nomina: しろい ねこ (kucing putih), げんきな いぬ. 「〜たい です」 = ingin.",["ねこ を かっています~Neko o katte imasu~Memelihara kucing","しろい ねこ~Shiroi neko~Kucing putih","わたし は ねこ が かいたい です~Watashi wa neko ga kaitai desu~Saya ingin memelihara kucing","いぬ を かっています~Inu o katte imasu~Memelihara anjing","うさぎ は かわいい です~Usagi wa kawaii desu~Kelinci itu imut","わたし は うさぎ が かいたい です~Watashi wa usagi ga kaitai desu~Saya ingin memelihara kelinci","いぬ は げんき です~Inu wa genki desu~Anjingnya ceria","ハムスター は おとなしい です~Hamusutaa wa otonashii desu~Hamster itu penurut"],{"vocab": "ペット=hewan peliharaan,いぬ=anjing,とり=burung,うさぎ=kelinci,ハムスター=hamster,うま=kuda,さる=monyet,ぞう=gajah,とら=harimau,ライオン=singa,かめ=kura-kura,へび=ular,げんき=ceria / sehat,おとなしい=penurut / tenang,ワンワン=guk guk (bunyi anjing),ニャーニャー=meong (bunyi kucing)"}],
+[17,"よく ロックを ききます","Kalimat nomina: 「N は N です」. 「よく」 = sering. 「が すき」 = suka.",["しゅみ は おんがく です~Shumi wa ongaku desu~Hobiku musik","よく ロック を ききます~Yoku rokku o kikimasu~Sering mendengar rock","ハイド が すき です~Hyde ga suki desu~Suka Hyde","しゅみ は どくしょ です~Shumi wa dokusho desu~Hobiku membaca","よく マンガ を かいます~Yoku manga o kaimasu~Sering membeli komik","ともだち の しゅみ は ジャズ です~Tomodachi no shumi wa jazu desu~Hobi temanku musik jazz","よく ポップス を ききます~Yoku poppusu o kikimasu~Sering mendengarkan musik pop","ときどき さんぽ を します~Tokidoki sanpo o shimasu~Kadang-kadang jalan-jalan santai"],{"vocab": "どくしょ=membaca,ほん=buku,マンガ=komik,ドラマ=drama,ポップス=musik pop,ジャズ=jazz,クラシック=musik klasik,さんぽ=jalan-jalan santai,たまに=sesekali,うたいます=bernyanyi,ひきます=memainkan (piano / gitar)"}],
+[18,"あさごはんを たべます","Negatif adjektiva-na: 「すきじゃないです」. 「も」 = juga. Tanya: 「〜ますか」, jawab はい/いいえ.",["やさい を たべます~Yasai o tabemasu~Makan sayur","あさごはん を たべますか~Asa-gohan o tabemasu ka~Apakah sarapan?","ごはん と たまご を たべます~Gohan to tamago o tabemasu~Makan nasi dan telur","ぎゅうにゅう は すきじゃない です~Gyuunyuu wa sukijanai desu~Tidak suka susu","やさい も すき です~Yasai mo suki desu~Sayur juga suka","あさごはん に パン を たべます~Asagohan ni pan o tabemasu~Sarapan dengan roti","くだもの が すき です~Kudamono ga suki desu~Suka buah","りんご と バナナ を たべます~Ringo to banana o tabemasu~Makan apel dan pisang","サラダ も すき です~Sarada mo suki desu~Salad juga suka","ヨーグルト は すきじゃない です~Yooguruto wa sukijanai desu~Tidak suka yogurt"],{"vocab": "くだもの=buah,バナナ=pisang,りんご=apel,みかん=jeruk,スイカ=semangka,トースト=roti panggang,サラダ=salad,ヨーグルト=yogurt,おかゆ=bubur,きらい=tidak suka,まずい=tidak enak,ばんごはん=makan malam"}],
+[19,"バリへ いったことが あります","「〜た こと が あります」 = pernah. Lampau adjektiva-i: 〜かった (おいしかった).",["ペルー へ いった こと が あります~Peruu e itta koto ga arimasu~Pernah ke Peru","ちゅうごく の りょうり は とても おいしかった です~Chuugoku no ryouri wa totemo oishikatta desu~Masakan Cina enak sekali","マチュ・ピチュ は ペルー に あります~Machu Picchu wa Peruu ni arimasu~Machu Picchu ada di Peru","コモドとう に めずらしい どうぶつ が います~Komodo-tou ni mezurashii doubutsu ga imasu~Di Pulau Komodo ada hewan langka","アメリカ へ いった こと が あります~Amerika e itta koto ga arimasu~Pernah pergi ke Amerika","りょこう は とても たのしかった です~Ryokou wa totemo tanoshikatta desu~Perjalanannya sangat menyenangkan","ふじさん は たかい です~Fujisan wa takai desu~Gunung Fuji itu tinggi","オーストラリア に めずらしい どうぶつ が います~Oosutoraria ni mezurashii doubutsu ga imasu~Di Australia ada hewan langka","かんこく の りょうり は おいしかった です~Kankoku no ryouri wa oishikatta desu~Masakan Korea enak"],{"vocab": "りょこう=perjalanan wisata,せかいいさん=warisan dunia,ひこうき=pesawat,ホテル=hotel,ビーチ=pantai,ふじさん=Gunung Fuji,たかい=tinggi / mahal,ひくい=rendah,たのしい=menyenangkan,つまらない=membosankan,おみやげ=oleh-oleh,はじめて=pertama kali,アメリカ=Amerika,イギリス=Inggris,オーストラリア=Australia,かんこく=Korea Selatan"}],
+[20,"しょうらい にほんに りゅうがく したいです","「〜たい です」 = ingin melakukan. Lampau verba: 〜ました. 「N の とき」 = ketika.",["ジョグジャカルタ で うまれました~Jogjakaruta de umaremashita~Lahir di Yogyakarta","ちゅうがっこう の とき、 スマラン に ひっこしました~Chuugakkou no toki, Semaran ni hikkoshimashita~Saat SMP pindah ke Semarang","しょうらい にほん で はたらきたい です~Shourai nihon de hatarakitai desu~Nanti ingin bekerja di Jepang","しょうらい かいしゃ で はたらきたい です~Shourai kaisha de hatarakitai desu~Nanti ingin bekerja di perusahaan","しょうがっこう の とき、 よく つり を しました~Shougakkou no toki, yoku tsuri o shimashita~Saat SD, saya sering memancing","わたし は ジャカルタ で うまれました~Watashi wa Jakaruta de umaremashita~Saya lahir di Jakarta","しょうらい いしゃ に なります~Shourai isha ni narimasu~Nanti saya akan menjadi dokter","こども の とき、 スマトラ に いました~Kodomo no toki, Sumatora ni imashita~Waktu kecil saya berada di Sumatra"],{"vocab": "りゅうがく=belajar di luar negeri,だいがく=universitas,しょうがっこう=SD,ようちえん=TK,そつぎょう=lulus,にゅうがく=masuk sekolah,しごと=pekerjaan,かいしゃ=perusahaan,はたらきます=bekerja,なります=menjadi,つり=memancing,こども=anak-anak,おとな=orang dewasa,しゅっしん=asal / kelahiran,しんがく=melanjutkan sekolah,だいがくしけん=ujian masuk universitas,ごうかく=lulus ujian,しんろ=jalur masa depan,アルバイト=kerja paruh waktu,しゅうしょく=mencari kerja,しょうがくきん=beasiswa,せんもん=bidang keahlian"}],
+[21,"バスで がっこうへ いきます","「で」 = alat transportasi. 「へ」 = arah tujuan. 「から〜まで」 = dari…sampai…; 「ぐらい」 = kira-kira.",["わたし は バイク で がっこう へ きます~Watashi wa baiku de gakkou e kimasu~Saya ke sekolah naik motor","うち から がっこう まで 5ふん ぐらい です~Uchi kara gakkou made go-fun gurai desu~Rumah ke sekolah sekitar 5 menit","アンコット で がっこう へ いきます~Angkot de gakkou e ikimasu~Ke sekolah naik angkot","バス で えき へ いきます~Basu de eki e ikimasu~Pergi ke stasiun naik bus","でんしゃ で がっこう へ きます~Densha de gakkou e kimasu~Datang ke sekolah naik kereta","うち から えき まで ちかい です~Uchi kara eki made chikai desu~Dari rumah ke stasiun dekat","がっこう は うち から とおい です~Gakkou wa uchi kara tooi desu~Sekolah jauh dari rumah","あした じてんしゃ で がっこう へ いきます~Ashita jitensha de gakkou e ikimasu~Besok ke sekolah naik sepeda"],{"vocab": "バス=bus,でんしゃ=kereta listrik,くるま=mobil,ちかてつ=kereta bawah tanah,タクシー=taksi,じてんしゃ=sepeda,あるいて=berjalan kaki,えき=stasiun,バスてい=halte bus,とおい=jauh,ちかい=dekat,かかります=memerlukan (waktu),はやい=cepat / awal,おそい=lambat / terlambat,かえります=pulang,ふね=kapal,とうこう=berangkat ke sekolah,げこう=pulang sekolah", "time": true}],
+[22,"まいあさ 5じに おきます","Bentuk ます: 〜ます (kini), 〜ました (lampau). Waktu + に. まい〜 = setiap.",["まいあさ 5じ に おきます~Maiasa go-ji ni okimasu~Setiap pagi bangun jam 5","まいにち 8じかん ねます~Mainichi hachi-jikan nemasu~Setiap hari tidur 8 jam","げつようび は 5じ に おきました~Getsu-youbi wa go-ji ni okimashita~Hari Senin bangun jam 5","まいばん シャワー を あびます~Maiban shawaa o abimasu~Setiap malam mandi","あさ はみがき を します~Asa hamigaki o shimasu~Pagi hari menggosok gigi","ほうかご ともだち と かえります~Houkago tomodachi to kaerimasu~Sepulang sekolah pulang bersama teman","5じ に うち へ かえります~Go-ji ni uchi e kaerimasu~Pulang ke rumah jam 5","まいあさ あさごはん を たべます~Maiasa asagohan o tabemasu~Setiap pagi sarapan"],{"vocab": "あさ=pagi,ひる=siang,ばん=malam,ごぜん=pagi (AM),ごご=siang / sore (PM),はん=setengah,まいばん=setiap malam,シャワー=mandi (shower),あびます=mandi / menyiram badan,はみがき=menggosok gigi,でかけます=pergi keluar,ほうかご=sepulang sekolah,ゆうがた=sore hari,よる=malam hari,じかん=waktu / jam,しゅくだい=PR,ふくしゅう=mengulang pelajaran,よしゅう=belajar sebelum pelajaran,ねぼう=bangun kesiangan,ちこく=terlambat,しゅっせき=hadir,けっせき=tidak hadir", "time": true}],
+[23,"おかあさんは ジーンズを はいています","「〜ています」 = sedang/dalam keadaan (memakai). 「〜ます」 = kebiasaan/kehendak.",["ぼうし を かぶっています~Boushi o kabutte imasu~Sedang memakai topi","パーティー の とき、 ドレス を きます~Paatii no toki, doresu o kimasu~Saat pesta memakai gaun","これ は ちち です~Kore wa chichi desu~Ini ayah saya","ともだち は めがね を かけています~Tomodachi wa megane o kakete imasu~Temanku memakai kacamata","あね は ワンピース を きています~Ane wa wanpiisu o kite imasu~Kakak perempuanku memakai terusan","ちち は スーツ を きます~Chichi wa suutsu o kimasu~Ayah memakai jas","けっこんしき の とき、 きもの を きます~Kekkonshiki no toki, kimono o kimasu~Saat pesta pernikahan, memakai kimono","わたし は サンダル を はいています~Watashi wa sandaru o haite imasu~Saya memakai sandal"],{"vocab": "Tシャツ=kaos,ワンピース=terusan,きもの=kimono,ゆかた=yukata,スーツ=jas,めがね=kacamata,サンダル=sandal,かばん=tas,マフラー=syal,てぶくろ=sarung tangan,はきます=memakai (celana / sepatu),かぶります=memakai (topi),ふだんぎ=pakaian sehari-hari,けっこんしき=pesta pernikahan"}],
+[24,"ノートを かいます","Kata tunjuk: これ (ini), この + N. Tanya harga: 「いくら ですか」. 「じゃ、これ ください」 = kalau begitu, saya minta ini.",["ぶんぼうぐ を かいます~Bunbougu o kaimasu~Membeli alat tulis","モール で けしょうひん を かいます~Mooru de keshouhin o kaimasu~Beli kosmetik di mal","この ノート は 8,000ルピア です~Kono nooto wa hassen rupia desu~Buku ini 8.000 rupiah","これ は いくら です か~Kore wa ikura desu ka~Ini berapa harganya?","この ペン は いくら です か~Kono pen wa ikura desu ka~Pena ini berapa harganya?","えんぴつ を かいます~Enpitsu o kaimasu~Membeli pensil","スーパー で ノート を かいます~Suupaa de nooto o kaimasu~Membeli buku catatan di supermarket","この かばん は やすい です~Kono kaban wa yasui desu~Tas ini murah","じゃ、 これ ください~Ja, kore kudasai~Kalau begitu, saya minta ini"],{"vocab": "ペン=pena,えんぴつ=pensil,ボールペン=bolpoin,けしゴム=penghapus,じょうぎ=penggaris,はさみ=gunting,のり=lem,ホッチキス=stapler,ふでばこ=kotak pensil,ティッシュ=tisu,スーパー=supermarket,コンビニ=minimarket,みせ=toko,ねだん=harga,やすい=murah,ルピア=rupiah,えん=yen,おつり=uang kembali,レジ=kasir,ひとつ=satu (benda),ふたつ=dua (benda),みっつ=tiga (benda),ノートパソコン=laptop,パソコン=komputer,スマホ=ponsel pintar,アプリ=aplikasi,インターネット=internet,メール=surel,じしょ=kamus,コピー=fotokopi,マーカー=spidol penanda,ファイル=map / berkas", "price": true}]
+];
+
+/* Kamus arti per kata: "kata=arti" dipisah titik koma */
+const GLOSSARY = Object.fromEntries(`
+おはよう=selamat pagi;ございます=(akhiran sopan);こんにちは=selamat siang;こんばんは=selamat malam;はじめまして=salam kenal;アユ=Ayu (nama);です=adalah;どうぞ=silakan;よろしく=salam / dengan baik;おねがいします=mohon / tolong;
+ありがとう=terima kasih;さようなら=selamat tinggal;じゃ=kalau begitu;また=lagi / nanti;みて=lihat;ください=tolong;もう=lagi;いちど=sekali;すみません=permisi / maaf;トイレ=toilet;いいですか=bolehkah?;いいですよ=boleh;いいですね=bagus ya;
+1がつ23にち=23 Januari;たんじょうび=ulang tahun;は=(penanda topik);5がつ=bulan Mei;3っか=tanggal 3;ゆめ=cita-cita;いしゃ=dokter;わたし=saya;の=(milik);4がつ=bulan April;30にち=tanggal 30;
+これ=ini;はは=ibu (saya);ともだち=teman;かわいい=imut;かっこいい=keren;ね=ya? (persetujuan);いもうと=adik perempuan;アニメ=anime;が=(penanda subjek);すき=suka;
+シラット=silat;できます=bisa;いい=bagus;すごい=hebat;こんど=lain kali;おしえて=ajari;いっしょ=bersama;に=(di / pada);しましょう=mari lakukan;
+ここ=sini;こうちょうしつ=ruang kepala sekolah;カンティン=kantin;ろうか=koridor;きれい=bersih / cantik;
+たいいく=olahraga;すいようび=Rabu;きんようび=Jumat;げいじゅつ=seni;を=(penanda objek);べんきょうします=belajar;にほんご=bahasa Jepang;と=dan / bersama;
+ナシ・ゴレン=nasi goreng;たべます=makan;きょうしつ=ruang kelas;で=(di / dengan);ひとり=sendiri;たべませんか=maukah makan?;たべましょう=mari makan;
+アイせんせい=Bu Ai;えいご=bahasa Inggris;せんせい=guru;トトせんせい=Pak Toto;きびしい=tegas;リドせんせい=Pak Rido;ラフミせんせい=Bu Rahmi;となり=sebelah;います=ada (makhluk hidup);
+ごみばこ=tempat sampah;ほうき=sapu;あります=ada (benda);プロジェクター=proyektor;つくえ=meja;うえ=atas;ありません=tidak ada;
+プラムカ=pramuka;せいふく=seragam;きます=datang / memakai;ベトナム=Vietnam;しろ=putih;
+ぶんかさい=festival budaya;1がつ=bulan Januari;9にち=tanggal 9;でした=adalah (lampau);とき=ketika;おんがく=musik;ききました=mendengarkan (lampau);キャンプ=kemah;10がつ=bulan Oktober;10にち=tanggal 10;から=dari / karena;11にち=tanggal 11;まで=sampai;
+ジャカルタ=Jakarta;すんでいます=tinggal;パダン=Padang;にしスマトラ=Sumatera Barat;ジョグジャカルタ=Yogyakarta;グドゥ=gudeg;おいしい=enak;
+よく=sering;りょうり=masakan;します=melakukan;ちち=ayah;そうじ=bersih-bersih;アイロン=setrika;かけます=menyetrika;
+へや=kamar;しずか=tenang;じゃない=bukan / tidak;にわ=taman;でんわ=telepon;きゃくま=ruang tamu;エアコン=AC;いま=sekarang;あかるい=terang;
+ねこ=kucing;かっています=memelihara;しろい=putih;かいたい=ingin memelihara;
+しゅみ=hobi;ロック=musik rock;ききます=mendengarkan;ハイド=Hyde;かしゅ=penyanyi;たのしかった=menyenangkan (lampau);いました=ada (lampau);しました=melakukan (lampau);かけています=sedang memakai (kacamata);きています=sedang memakai (baju);はいています=sedang memakai (sepatu / sandal);
+やさい=sayur;あさごはん=sarapan;たべますか=apakah makan?;ごはん=nasi;たまご=telur;ぎゅうにゅう=susu;すきじゃない=tidak suka;も=juga;
+ペルー=Peru;へ=(ke);いった=pernah pergi;こと=pengalaman;ちゅうごく=Cina;とても=sangat;おいしかった=enak (lampau);マチュ・ピチュ=Machu Picchu;コモドとう=Pulau Komodo;めずらしい=langka;どうぶつ=hewan;
+うまれました=lahir;ちゅうがっこう=SMP;スマラン=Semarang;ひっこしました=pindah rumah;しょうらい=masa depan;にほん=Jepang;はたらきたい=ingin bekerja;
+バイク=motor;がっこう=sekolah;うち=rumah;5ふん=5 menit;ぐらい=kira-kira;アンコット=angkot;いきます=pergi;
+まいあさ=setiap pagi;5じ=jam 5;おきます=bangun;まいにち=setiap hari;8じかん=8 jam;ねます=tidur;げつようび=Senin;おきました=bangun (lampau);
+ぼうし=topi;かぶっています=sedang memakai (topi);パーティー=pesta;ドレス=gaun;
+ぶんぼうぐ=alat tulis;かいます=membeli;モール=mal;けしょうひん=kosmetik;この=ini (+ benda);ノート=buku catatan;8,000ルピア=8.000 rupiah;いくら=berapa harga;か=(partikel tanya)
+`.split(";").map(x => x.trim().split("=")).filter(x => x.length === 2));
+
+/* =========================================================
+   2. PENGOLAHAN DATA
+   ========================================================= */
+/* Kata tata bahasa: tidak dihitung sebagai kosakata, dan menjadi penanda pola pada bunpou */
+const PARTICLES = ["は", "が", "を", "に", "で", "と", "の", "も", "へ", "から", "まで", "か", "ね"];
+const GRAMMAR = new Set([...PARTICLES, "です", "でした", "じゃない", "とき", "ございます", "ください",
+  "います", "あります", "ありません", "できます", "しましょう", "たべましょう", "ぐらい", "こと"]);
+const clean = t => t.replace(/[、。]/g, "");
+const isContent = t => !!GLOSSARY[t] && !GRAMMAR.has(t);
+const isWord = t => isContent(t) && !/\d/.test(t);       // kata yang layak jadi kartu / soal
+
+/* Bagian kalimat yang bisa diganti: kata isi setelah は (atau semua kata isi bila tanpa は).
+   Kalimat tanpa partikel (salam, ungkapan tetap) tidak punya bagian yang diganti. */
+function findSlots(tokens) {
+  const words = tokens.map(clean);
+  if (!words.some(w => PARTICLES.includes(w))) return [];
+  const topic = words.indexOf("は");
+  return words.map((w, i) => (i > topic && isContent(w) ? i : -1)).filter(i => i >= 0);
+}
+const mark = (parts, slots) => parts.map((p, i) => (slots.includes(i) ? `<mark class="slot">${p}</mark>` : p));
+
+/* Kosakata tambahan tiap bab ikut masuk kamus (arti per kata & bagian yang bisa diganti) */
+CHAPTERS_RAW.forEach(r => ((r[4] && r[4].vocab) || "").split(",").filter(Boolean).forEach(x => {
+  const [w, a, b] = x.split("=");
+  if (!GLOSSARY[w]) GLOSSARY[w] = b === undefined ? a : b;
+}));
+
+/* Terjemahan judul bab (bahasa Indonesia) */
+const CHAPTER_TITLE_ID = {
+  1: "Salam kenal", 2: "Terima kasih", 3: "Cita-citaku adalah penyanyi", 4: "Ayahku suka olahraga",
+  5: "Saya bisa memasak", 6: "Ini perpustakaan", 7: "Bahasa Jepang hari Selasa", 8: "Maukah makan bersama?",
+  9: "Guruku baik hati", 10: "Sapu ada di samping rak", 11: "Hari Rabu memakai batik", 12: "Festival budaya diadakan pada 11 Januari",
+  13: "Saya tinggal di Padang", 14: "Saya sering membersihkan (rumah)", 15: "Saya mengerjakan PR", 16: "Saya ingin memelihara kucing putih",
+  17: "Saya sering mendengarkan musik rock", 18: "Saya sarapan", 19: "Saya pernah pergi ke Bali", 20: "Nanti saya ingin kuliah di Jepang",
+  21: "Saya pergi ke sekolah naik bus", 22: "Setiap pagi saya bangun jam 5", 23: "Ibu memakai jeans", 24: "Saya membeli buku catatan",
+};
+
+const CHAPTERS = CHAPTERS_RAW.map(([no, title, grammar, lines, opt = {}]) => ({
+  no, title, grammar, titleId: CHAPTER_TITLE_ID[no] || "",
+  dates: !!opt.dates,            // bab yang memuat tanggal (soal membaca tanggal)
+  time: !!opt.time,              // bab jam & menit (soal membaca jam)
+  price: !!opt.price,            // bab harga (soal membaca harga)
+  qa: opt.qa || [],              // soal situasi: [pertanyaan, benar, salah..., penjelasan]
+  extra: opt.vocab || "",        // kosakata tambahan: "kata=romaji=arti,..."
+  sentences: lines.map(line => {
+    const [jp, romaji, meaning] = line.split("~");
+    const tokens = jp.split(" ");
+    const slots = findSlots(tokens);
+    const ro = romaji.split(" ");
+    return {
+      tokens, jp: tokens.join(""), romaji, meaning, slots,
+      words: tokens.map(t => [clean(t), GLOSSARY[clean(t)] || "—"]),
+      jpHtml: mark(tokens, slots).join(""),
+      romajiHtml: ro.length === tokens.length ? mark(ro, slots).join(" ") : romaji,
+    };
+  }),
+}));
+
+/* =========================================================
+   3. STATE & HELPER
+   ========================================================= */
+const $ = id => document.getElementById(id);
+const shuffle = arr => [...arr].sort(() => Math.random() - 0.5);
+/* Tiap huruf dibungkus kotak (gaya kertas genko-yoshi) */
+/* Mulai ulang animasi masuk pada area isi (dipanggil saat layar berganti) */
+function enter() {
+  const v = $("v");
+  v.classList.remove("enter");
+  void v.offsetWidth;
+  v.classList.add("enter");
+}
+/* Tanda maru untuk jawaban benar & skor */
+const MARU = '<i class="maru"></i>';
+const scoreBlock = (s, n) => `<div class="score"><span>Skor</span><b>${s}/${n}</b>${MARU}</div>`;
+const cells = text => [...text].map(c => `<span class="cell">${c}</span>`).join("");
+
+const state = {
+  tab: -1,
+  stage: "home",         // home | pick | content
+  chapter: -1,          // -1 = semua bab
+  cardKind: "all",      // all | kata | kalimat
+  deck: [], cardIndex: 0, flipped: false,
+  quiz: { items: [], index: 0, score: 0, answered: false },
+  order: null,
+  kana: { script: "hira", mode: "chart", hide: false, drill: null },
+};
+
+/* Ambil kalimat sesuai bab terpilih (disertai info bab-nya) */
+function getSentences() {
+  const list = state.chapter < 0 ? CHAPTERS : [CHAPTERS[state.chapter]];
+  return list.flatMap(c => c.sentences.map(s => ({ ...s, chapter: c })));
+}
+
+/* =========================================================
+   3b. SIMPAN POSISI (agar refresh tidak mengulang dari awal)
+   Disimpan di localStorage; semua akses dibungkus try/catch.
+   ========================================================= */
+const STORE_KEY = "nihongo-state-v2";
+
+function saveState() {
+  try {
+    const o = state.order;
+    localStorage.setItem(STORE_KEY, JSON.stringify({
+      tab: state.tab, stage: state.stage, chapter: state.chapter,
+      deck: state.deck.map(s => s.kind + ":" + s.jp), cardKind: state.cardKind, cardIndex: state.cardIndex, flipped: state.flipped,
+      quiz: state.quiz,
+      kana: state.kana,
+      order: o && { jp: o.sentence.jp, mode: o.mode, left: o.left, picked: o.picked.map(x => x.i), bank: o.bank.map(x => [x.i, x.t]) },
+    }));
+  } catch (e) { /* penyimpanan tidak tersedia: abaikan */ }
+}
+
+/* Kembalikan posisi terakhir. Mengembalikan true jika berhasil. */
+function restoreState() {
+  try {
+    const d = JSON.parse(localStorage.getItem(STORE_KEY));
+    if (!d || d.stage === "home" || !(d.tab >= 0 && d.tab < SECTIONS.length)) return false;
+    if (!(d.chapter >= -1 && d.chapter < CHAPTERS.length)) return false;
+
+    if (d.stage === "pick") { showChapterPicker(d.tab); return true; }
+
+    state.chapter = d.chapter;
+    const list = getSentences();
+
+    if (d.tab === 0) {
+      state.cardKind = d.cardKind || "all";
+      const byKey = new Map(getCards().map(s => [s.kind + ":" + s.jp, s]));
+      const deck = (d.deck || []).map(k => byKey.get(k)).filter(Boolean);
+      if (deck.length) {
+        state.deck = deck;
+        state.cardIndex = Math.min(d.cardIndex || 0, deck.length - 1);
+        state.flipped = !!d.flipped;
+      } else resetDeck();
+    }
+    if (d.kana) state.kana = { ...state.kana, ...d.kana };
+    if (d.tab === 2 && d.quiz && d.quiz.items && d.quiz.items.length) state.quiz = d.quiz;
+    if (d.tab === 3 && d.order) {
+      const s = list.find(x => x.jp === d.order.jp);
+      if (s) {
+        const bank = d.order.bank.map(x => (Array.isArray(x) ? { i: x[0], t: x[1] } : { t: s.tokens[x], i: x }));
+        state.order = { sentence: s, bank, mode: d.order.mode || "jp", target: orderTarget(s, d.order.mode || "jp"), left: d.order.left,
+                        picked: d.order.picked.map(i => bank.find(x => x.i === i)).filter(Boolean) };
+      }
+    }
+    showContent(d.tab);
+    return true;
+  } catch (e) { return false; }
+}
+
+/* =========================================================
+   4. NAVIGASI
+   ========================================================= */
+const SECTIONS = [
+  { title: "Flashcard",  desc: "Hafalkan kalimat beserta arti tiap kata", render: renderFlashcard },
+  { title: "Bunpou",     desc: "Penjelasan tata bahasa tiap bab",         render: renderGrammar },
+  { title: "Kuis",       desc: "Soal analisis tata bahasa dengan penjelasan",       render: renderQuiz },
+  { title: "Susun Kata", desc: "Susun kalimat, bacaan, dan terjemahan",      render: renderOrderGame },
+  { title: "Hiragana dan Katakana", desc: "Tabel huruf dan latihan membaca", render: renderKana, noChapter: true },
+  { title: "About",      desc: "Isi website dan cara belajar", render: renderAbout, noChapter: true },
+];
+
+/* Pilihan "animasi penuh" (menimpa pengaturan kurangi gerakan perangkat) */
+const MOTION_KEY = "nihongo-motion";
+
+function applyMotion() {
+  try { document.documentElement.dataset.motion = localStorage.getItem(MOTION_KEY) || ""; } catch (e) {}
+}
+
+function toggleMotion() {
+  try {
+    if (localStorage.getItem(MOTION_KEY) === "full") localStorage.removeItem(MOTION_KEY);
+    else localStorage.setItem(MOTION_KEY, "full");
+  } catch (e) {}
+  applyMotion();
+  renderAbout();
+}
+
+function initUI() {
+  applyMotion();
+  if (!restoreState()) showHome();
+}
+
+/* Halaman menu utama */
+function showHome() {
+  enter();
+  state.tab = -1;
+  state.stage = "home";
+  $("bar").hidden = true;
+
+  $("v").innerHTML = `
+    <div class="menu sheet">
+      ${SECTIONS.map((s, i) => `
+        <button class="item" style="--n:${i}" onclick="openSection(${i})">
+          <b>${s.title}</b>
+          <small>${s.desc}</small>
+        </button>`).join("")}
+    </div>`;
+  saveState();
+}
+
+/* Buka salah satu bagian dari menu: pilih bab dulu (kecuali About) */
+function openSection(i) {
+  if (SECTIONS[i].noChapter) startSection(i);
+  else showChapterPicker(i);
+}
+
+/* Layar pilih bab */
+function showChapterPicker(i) {
+  enter();
+  state.tab = i;
+  state.stage = "pick";
+  setBar("Kembali ke menu", `${SECTIONS[i].title}: pilih bab`);
+
+  $("v").innerHTML = `
+    <div class="menu dense sheet">
+      ${CHAPTERS.map((c, k) => `
+        <button class="item" style="--n:${k}" onclick="startSection(${i}, ${k})">
+          <b>Bab ${c.no}</b>
+          <small>${c.title}<br><span class="tr">${c.titleId}</span></small>
+        </button>`).join("")}
+      <button class="item all" style="--n:${CHAPTERS.length}" onclick="startSection(${i}, -1)">
+        <b>Semua bab</b>
+        <small>Gabungan Bab ${CHAPTERS[0].no} sampai Bab ${CHAPTERS[CHAPTERS.length - 1].no}</small>
+      </button>
+    </div>`;
+  window.scrollTo({ top: 0 });
+  saveState();
+}
+
+/* Mulai bagian terpilih dengan bab yang dipilih (selalu dari awal) */
+function startSection(i, chapter = -1) {
+  state.chapter = chapter;
+  if (i === 0) resetDeck();
+  if (i === 2) state.quiz.items = [];
+  if (i === 3) state.order = null;
+  if (i === 4) { state.kana.mode = "chart"; state.kana.drill = null; state.kana.fx = true; }
+  showContent(i);
+}
+
+/* Tampilkan isi bagian (tanpa mengatur ulang state) */
+function showContent(i) {
+  enter();
+  state.tab = i;
+  state.stage = "content";
+
+  const s = SECTIONS[i];
+  if (s.noChapter) {
+    setBar("Kembali ke menu", s.title);
+  } else {
+    const label = state.chapter < 0 ? "Semua bab" : `Bab ${CHAPTERS[state.chapter].no}`;
+    setBar("Ganti bab", `${s.title}: ${label}`);
+  }
+  s.render();
+  window.scrollTo({ top: 0 });
+  saveState();
+}
+
+function goBack() {
+  if (state.stage === "content" && !SECTIONS[state.tab].noChapter) showChapterPicker(state.tab);
+  else showHome();
+}
+
+function setBar(backText, title) {
+  $("bar").hidden = false;
+  $("back").textContent = backText;
+  $("title").textContent = title;
+}
+
+/* =========================================================
+   5. FLASHCARD
+   ========================================================= */
+/* Romaji dari kana (untuk kartu kata). Kosong jika ada angka/huruf latin. */
+let ROMAJI_MAP = null;
+function romajiOf(word) {
+  if (/[0-9A-Za-z]/.test(word)) return "";
+  const fixed = { "こんにちは": "konnichiwa", "こんばんは": "konbanwa" };
+  if (fixed[word]) return fixed[word];
+  if (!ROMAJI_MAP) {
+    ROMAJI_MAP = new Map();
+    KANA_GROUPS.forEach(g => g.cells.filter(Boolean).forEach(([k, r]) => ROMAJI_MAP.set(k, r)));
+    Object.entries({ "てぃ": "ti", "でぃ": "di", "ふぁ": "fa", "ふぃ": "fi", "ふぇ": "fe", "ふぉ": "fo", "どぅ": "du", "じぇ": "je" })
+      .forEach(([k, r]) => ROMAJI_MAP.set(k, r));
+  }
+  const hira = [...word.replace(/・/g, "")]
+    .map(c => (c >= "ァ" && c <= "ヶ" ? String.fromCharCode(c.charCodeAt(0) - 0x60) : c)).join("");
+  let out = "", i = 0, doubled = false;
+  while (i < hira.length) {
+    const c = hira[i];
+    if (c === "っ") { doubled = true; i++; continue; }
+    if (c === "ー") { out += out.slice(-1); i++; continue; }
+    let r = ROMAJI_MAP.get(hira.slice(i, i + 2)), step = 2;
+    if (!r) { r = ROMAJI_MAP.get(c); step = 1; }
+    if (!r) return "";
+    if (doubled) { out += r.startsWith("ch") ? "t" : r[0]; doubled = false; }
+    out += r; i += step;
+  }
+  return out;
+}
+
+/* Daftar kosakata tiap bab: kata isi dari kalimat + kosakata tambahan bab */
+const MEANING = {};   // kata -> arti (semua kosakata)
+const meaningOf = w => MEANING[w];
+
+function buildVocab() {
+  const seen = new Set();
+  const push = (list, v) => { seen.add(v.jp); MEANING[v.jp] = v.meaning; list.push(v); };
+  CHAPTERS.forEach(c => {
+    const list = [];
+    c.sentences.forEach(s => s.tokens.map(clean).forEach(w => {
+      if (isWord(w) && !seen.has(w))
+        push(list, { jp: w, romaji: romajiOf(w), meaning: GLOSSARY[w], example: `${s.jp} (${s.meaning})` });
+    }));
+    c.extra.split(",").filter(Boolean).forEach(x => {      // "kata=arti" atau "kata=romaji=arti"
+      const [w, a, b] = x.split("=");
+      if (!seen.has(w)) push(list, { jp: w, romaji: b === undefined ? romajiOf(w) : a, meaning: b === undefined ? a : b });
+    });
+    c.vocab = list;
+  });
+}
+
+/* Kartu: kata dan/atau kalimat sesuai bab dan pilihan Semua / Kata / Kalimat */
+function getCards() {
+  if (!CHAPTERS[0].vocab) buildVocab();
+  const list = state.chapter < 0 ? CHAPTERS : [CHAPTERS[state.chapter]];
+  const words = list.flatMap(c => c.vocab.map(v => ({ ...v, kind: "kata", words: [], chapter: c })));
+  const sents = list.flatMap(c => c.sentences.map(s => ({ ...s, kind: "kalimat", chapter: c })));
+  return state.cardKind === "kata" ? words : state.cardKind === "kalimat" ? sents : [...words, ...sents];
+}
+
+function setCardKind(kind) {
+  state.cardKind = kind;
+  resetDeck();
+  renderFlashcard();
+}
+
+function resetDeck() {
+  state.deck = getCards();
+  state.cardIndex = 0;
+  state.flipped = false;
+}
+
+function moveCard(step) {
+  const n = state.deck.length;
+  state.cardIndex = (state.cardIndex + step + n) % n;
+  state.flipped = false;
+  state.cardAnim = step > 0 ? "slide-l" : "slide-r";
+  renderFlashcard();
+}
+
+/* Kartu berputar setengah putaran, isinya berganti, lalu putar balik */
+function flipCard() {
+  if (state.flipping) return;
+  const el = document.querySelector(".fc");
+  if (!el) return;
+  state.flipping = true;
+  el.classList.add("flip-out");
+  setTimeout(() => {
+    state.flipping = false;
+    state.flipped = !state.flipped;
+    state.cardAnim = "flip-in";
+    renderFlashcard();
+  }, 140);
+}
+
+function shuffleDeck() {
+  state.deck = shuffle(state.deck);
+  state.cardIndex = 0;
+  state.flipped = false;
+  renderFlashcard();
+}
+
+function renderFlashcard() {
+  const s = state.deck[state.cardIndex];
+  const anim = state.cardAnim || "";
+  state.cardAnim = "";
+  const front = `
+    <div class="gy">${cells(s.jp)}</div>
+    <div class="mu">ketuk untuk membalik</div>`;
+  const back = `
+    <div class="meaning">${s.meaning}</div>
+    <div class="ro">${s.romaji}</div>
+    ${s.example ? `<div class="mu" style="margin-top:12px">Contoh: ${s.example}</div>` : ""}
+    <div class="words">
+      ${s.words.map(([t, m]) => `<span class="w"><b>${t}</b><small>${m}</small></span>`).join("")}
+    </div>`;
+
+  const kinds = [["all", "Semua"], ["kata", "Kata"], ["kalimat", "Kalimat"]];
+  $("v").innerHTML = `
+    <div class="row" style="justify-content:flex-start;margin:0 0 12px">
+      ${kinds.map(([k, l]) => `<button class="${state.cardKind === k ? "on" : ""}" onclick="setCardKind('${k}')">${l}</button>`).join("")}
+    </div>
+    <div class="box fc ${anim}" onclick="flipCard()">${state.flipped ? back : front}</div>
+    <div class="row">
+      <button onclick="moveCard(-1)">Sebelumnya</button>
+      <span class="mu">${state.cardIndex + 1}/${state.deck.length}</span>
+      <button onclick="moveCard(1)">Berikutnya</button>
+    </div>
+    <div class="row"><button onclick="shuffleDeck()">Acak urutan</button></div>`;
+  saveState();
+}
+
+/* =========================================================
+   6. BUNPOU
+   ========================================================= */
+function renderGrammar() {
+  const list = state.chapter < 0 ? CHAPTERS : [CHAPTERS[state.chapter]];
+  $("v").innerHTML = list.map(c => `
+    <div class="box" style="margin-bottom:12px">
+      <b>Bab ${c.no}: ${c.title}</b><div class="mu">${c.titleId}</div>
+      <div class="ex">${c.grammar}</div>
+      ${c.sentences.map(s => `
+        <p><span class="jp" style="font-size:20px">${s.jpHtml}</span><br>
+        <span class="ro">${s.romajiHtml}</span><br>${s.meaning}</p>`).join("")}
+      ${c.sentences.some(s => s.slots.length) ? '<p class="mu">Bagian yang diberi warna kuning bisa diganti.</p>' : ""}
+    </div>`).join("");
+}
+
+/* =========================================================
+   7. KUIS
+   ========================================================= */
+const QUIZ_SIZE = 20;   // jumlah soal per sesi
+
+/* Ambil n nilai unik (selain jawaban); nilai "preferred" diutamakan */
+function pickDistractors(preferred, fallback, answer, n = 3) {
+  const seen = new Set([answer]);
+  const out = [];
+  for (const v of [...shuffle(preferred), ...shuffle(fallback)]) {
+    if (!seen.has(v)) { seen.add(v); out.push(v); }
+    if (out.length === n) break;
+  }
+  return out;
+}
+
+const PARTICLE_ROLE = {
+  "は": "penanda topik", "が": "penanda subjek (juga untuk すき dan できます)", "を": "penanda objek langsung",
+  "に": "penanda waktu, tempat keberadaan, atau tujuan", "で": "penanda tempat kegiatan atau alat",
+  "と": "'dan' atau 'bersama'", "の": "menyatakan kepemilikan / hubungan antar-nomina",
+  "も": "'juga'", "へ": "penanda arah tujuan",
+};
+const BLANK_PARTICLES = Object.keys(PARTICLE_ROLE);
+const CONFUSABLE = [["は", "が", "も"], ["に", "へ"]];       // pasangan yang bisa sama-sama benar: tidak dijadikan pilihan
+const sameGroup = (a, b) => CONFUSABLE.some(g => g.includes(a) && g.includes(b));
+const kindOf = w => (/ます$/.test(w) ? "v" : /い$/.test(w) ? "i" : "n");   // jenis kata: verba / adjektiva-i / lainnya
+
+/* ---------- membaca tanggal ---------- */
+const NUM_RO = ["", "ichi", "ni", "san", "yon", "go", "roku", "nana", "hachi", "kyuu", "juu"];
+const DAY_RO = { 1: "tsuitachi", 2: "futsuka", 3: "mikka", 4: "yokka", 5: "itsuka", 6: "muika", 7: "nanoka",
+  8: "youka", 9: "kokonoka", 10: "tooka", 14: "juu-yokka", 20: "hatsuka", 24: "ni-juu-yokka" };
+const MONTH_RO = ["", "ichi", "ni", "san", "shi", "go", "roku", "shichi", "hachi", "ku", "juu", "juu-ichi", "juu-ni"];
+const numRo = n => {
+  if (n <= 10) return NUM_RO[n];
+  const t = Math.floor(n / 10), o = n % 10;
+  return (t > 1 ? NUM_RO[t] + "-" : "") + "juu" + (o ? "-" + (o === 7 ? "shichi" : o === 9 ? "ku" : NUM_RO[o]) : "");
+};
+const dayRo = d => DAY_RO[d] || numRo(d) + "-nichi";
+const monRo = m => MONTH_RO[m] + "-gatsu";
+const DATE_RULE = "Bulan = angka + がつ (4 = しがつ, 7 = しちがつ, 9 = くがつ). Tanggal = angka + にち, kecuali tanggal 1–10, 14, 20, dan 24 yang punya bacaan khusus.";
+
+function dateQuestions() {
+  const out = [];
+  const add = (question, right, wrongs, explanation) =>
+    out.push({ question, answer: right, options: shuffle([right, ...shuffle(wrongs).slice(0, 3)]), explanation });
+
+  [[1, 23], [5, 3], [4, 30], [7, 14], [9, 20], [12, 24], [3, 8], [10, 10], [6, 7], [2, 2], [11, 17], [8, 9]].forEach(([m, d]) => {
+    const right = `${monRo(m)} ${dayRo(d)}`;
+    const rev = +String(d).split("").reverse().join("");
+    const wrong = new Set([
+      `${dayRo(d)} ${monRo(m)}`,                                                  // urutan terbalik
+      `${monRo(m)} ${DAY_RO[d] ? numRo(d) + "-nichi" : numRo(d) + "-ka"}`,        // bacaan khusus dibaca biasa / salah penghitung
+      {4: "yon", 7: "nana", 9: "kyuu"}[m] ? `${{4: "yon", 7: "nana", 9: "kyuu"}[m]}-gatsu ${dayRo(d)}` : `${monRo(m % 12 + 1)} ${dayRo(d)}`,
+      rev !== d && rev <= 31 ? `${monRo(m)} ${dayRo(rev)}` : `${monRo(m)} ${dayRo(d % 31 + 1)}`,
+      `${monRo(m)} ${dayRo(d % 28 + 2)}`,
+    ]);
+    wrong.delete(right);
+    add(`Bagaimana cara membaca 「${m}がつ${d}にち」?`, right, [...wrong], `${DATE_RULE} Jadi ${m}がつ${d}にち dibaca <b>${right}</b>.`);
+  });
+  /* kebalikan: dari bacaan ke angka */
+  const SPECIAL = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 14, 20, 24];
+  SPECIAL.forEach(d => add(`Bacaan 「${DAY_RO[d]}」 menunjukkan tanggal berapa?`, `tanggal ${d}`,
+    byHash(SPECIAL.filter(x => x !== d), "d" + d).map(x => `tanggal ${x}`), `${DATE_RULE} 「${DAY_RO[d]}」 = tanggal ${d}.`));
+  const MN = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+  [[1, 2], [3, 3], [7, 7], [4, 24], [9, 9], [12, 10], [5, 14], [8, 20]].forEach(([m, d]) => add(
+    `Bacaan 「${monRo(m)} ${dayRo(d)}」 menunjukkan tanggal berapa?`, `${d} ${MN[m - 1]}`,
+    [d <= 12 && d !== m ? `${m} ${MN[d - 1]}` : `${d + 2} ${MN[m - 1]}`, `${d + 1} ${MN[m - 1]}`, `${d} ${MN[m % 12]}`, `${d - 1 || d + 3} ${MN[m - 1]}`],
+    `${DATE_RULE} 「${monRo(m)} ${dayRo(d)}」 = ${d} ${MN[m - 1]}.`));
+  [4, 7, 9].forEach(m => add(`Bagaimana cara membaca 「${m}がつ」?`, monRo(m),
+    [{4: "yon", 7: "nana", 9: "kyuu"}[m] + "-gatsu", monRo(m - 1), monRo(m + 1)], `${DATE_RULE} Jadi ${m}がつ dibaca <b>${monRo(m)}</b>.`));
+  [3, 10, 20].forEach(d => add(`Bagaimana cara membaca tanggal 「${d}にち」?`, DAY_RO[d],
+    [numRo(d) + "-nichi", numRo(d) + "-ka", DAY_RO[d % 10 + 1] || DAY_RO[2]], `${DATE_RULE} Tanggal ${d} dibaca <b>${DAY_RO[d]}</b>.`));
+  return out;
+}
+
+/* ---------- membaca jam, menit, dan harga ---------- */
+const MIN_RO = { 1: "ippun", 2: "ni-fun", 3: "san-pun", 4: "yon-pun", 5: "go-fun", 6: "roppun", 7: "nana-fun", 8: "happun", 9: "kyuu-fun", 10: "juppun" };
+const PUN = [1, 3, 4, 6, 8, 10];
+const TIME_RULE = "Jam = angka + じ (4 = よじ, 7 = しちじ, 9 = くじ). Menit = ふん / ぷん: 1 いっぷん, 3 さんぷん, 4 よんぷん, 6 ろっぷん, 8 はっぷん, 10 じゅっぷん; lainnya ふん.";
+
+function timeQuestions() {
+  const out = [], add = (question, right, wrongs, explanation) =>
+    out.push({ question, answer: right, options: shuffle([right, ...shuffle(wrongs).slice(0, 3)]), explanation });
+  const hourRight = { 4: "yo-ji", 7: "shichi-ji", 9: "ku-ji", 5: "go-ji", 8: "hachi-ji", 12: "juu-ni-ji" };
+  const hourWrong = { 4: ["yon-ji", "shi-ji", "yo-fun", "yon-jikan"], 7: ["nana-ji", "hichi-ji", "shichi-fun", "nana-jikan"], 9: ["kyuu-ji", "kuu-ji", "ku-fun", "kyuu-jikan"],
+    5: ["itsu-ji", "go-fun", "go-jikan", "gu-ji"], 8: ["hachi-fun", "hatchi-ji", "ya-ji", "hachi-jikan"], 12: ["juu-ichi-ji", "ni-juu-ji", "juu-ni-fun", "juu-ni-jikan"] };
+  Object.keys(hourRight).forEach(n => add(`Bagaimana cara membaca 「${n}じ」?`, hourRight[n], hourWrong[n], `${TIME_RULE} Jadi ${n}じ dibaca <b>${hourRight[n]}</b>.`));
+  [1, 2, 3, 4, 5, 6, 8, 10].forEach(n => {
+    const mark = PUN.includes(n) ? "ぷん" : "ふん", other = PUN.includes(n) ? "fun" : "pun";
+    const wrong = new Set([`${NUM_RO[n]}-${other}`, `${NUM_RO[n % 10 + 1]}-${PUN.includes(n) ? "pun" : "fun"}`, `${NUM_RO[n]}-ji`, `${NUM_RO[(n + 2) % 10 || 10]}-fun`]);
+    wrong.delete(MIN_RO[n]);
+    add(`Bagaimana cara membaca 「${n}${mark}」?`, MIN_RO[n], [...wrong], `${TIME_RULE} Jadi ${n}${mark} dibaca <b>${MIN_RO[n]}</b>.`);
+  });
+  [[4, "yo-jikan", ["yon-jikan", "shi-jikan", "yo-ji"]], [9, "ku-jikan", ["kyuu-jikan", "kuu-jikan", "ku-ji"]], [5, "go-jikan", ["itsu-jikan", "go-ji", "go-fun"]]].forEach(([n, r, w]) =>
+    add(`Bagaimana cara membaca 「${n}じかん」 (lama waktu)?`, r, w, `Lama waktu = angka + じかん; 4 = よじかん, 9 = くじかん. Jadi ${n}じかん dibaca <b>${r}</b>.`));
+  [[4, "yo-ji"], [7, "shichi-ji"], [9, "ku-ji"], [12, "juu-ni-ji"], [5, "go-ji"]].forEach(([n, ro]) =>
+    add(`Bacaan 「${ro}」 menunjukkan jam berapa?`, `jam ${n}`, [4, 7, 9, 12, 5, 8, 11].filter(x => x !== n).map(x => `jam ${x}`), `${TIME_RULE} 「${ro}」 = jam ${n}.`));
+  return out;
+}
+
+const SEN = { 1: "issen", 2: "nisen", 3: "sanzen", 4: "yonsen", 5: "gosen", 6: "rokusen", 7: "nanasen", 8: "hassen", 9: "kyuusen" };
+const HYAKU = { 1: "hyaku", 2: "nihyaku", 3: "sanbyaku", 4: "yonhyaku", 5: "gohyaku", 6: "roppyaku", 7: "nanahyaku", 8: "happyaku", 9: "kyuuhyaku" };
+const priceRo = n => [SEN[Math.floor(n / 1000)], HYAKU[Math.floor(n % 1000 / 100)]].filter(Boolean).join(" ") + " rupia";
+const fmt = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+function priceQuestions() {
+  const out = [];
+  [8000, 3600, 5000, 4500, 2300, 6800, 1000, 7900, 3300, 9600].forEach(n => {
+    const t = Math.floor(n / 1000), hd = Math.floor(n % 1000 / 100), right = priceRo(n);
+    const regS = t ? `${NUM_RO[t]}sen` : "", regH = hd ? `${NUM_RO[hd]}hyaku` : "";
+    const wrong = new Set([
+      [regS, regH].filter(Boolean).join(" ") + " rupia",          // semua dibaca beraturan
+      [SEN[t], regH].filter(Boolean).join(" ") + " rupia",        // ratusan dibaca beraturan
+      [regS, HYAKU[hd]].filter(Boolean).join(" ") + " rupia",     // ribuan dibaca beraturan
+      [HYAKU[hd], SEN[t]].filter(Boolean).join(" ") + " rupia",   // urutan terbalik
+    ]);
+    [1000, -1000, 100, -100, 2000, -2000, 200].forEach(d => {          // bila kurang, tambah angka di dekatnya
+      if (wrong.size < 5 && n + d > 0 && n + d <= 9900) wrong.add(priceRo(n + d));
+    });
+    wrong.delete(right);
+    out.push({ question: `Bagaimana cara membaca 「${fmt(n)}ルピア」?`, answer: right, options: shuffle([right, ...shuffle([...wrong]).slice(0, 3)]),
+      explanation: `Ribuan: 3.000 さんぜん, 8.000 はっせん. Ratusan: 300 さんびゃく, 600 ろっぴゃく, 800 はっぴゃく. Jadi ${fmt(n)} dibaca <b>${right}</b>.` });
+  });
+  [3600, 8000, 6800, 4500, 7900].forEach(n => {                      // kebalikan: dari bacaan ke angka
+    const t = Math.floor(n / 1000), hd = Math.floor(n % 1000 / 100);
+    const wrong = new Set([hd * 1000 + t * 100, n + 1000, n - 1000, n + 300, n - 300].filter(x => x > 0 && x !== n).map(fmt));
+    out.push({ question: `Bacaan 「${priceRo(n)}」 menunjukkan berapa rupiah?`, answer: fmt(n), options: shuffle([fmt(n), ...shuffle([...wrong]).slice(0, 3)]),
+      explanation: `Ribuan: 3.000 さんぜん, 8.000 はっせん. Ratusan: 300 さんびゃく, 600 ろっぴゃく, 800 はっぴゃく. 「${priceRo(n)}」 = ${fmt(n)}.` });
+  });
+  return out;
+}
+
+/* ---------- kumpulkan semua kandidat soal, per jenis ---------- */
+const hashNum = s => parseInt(hashKey(s), 36);
+const byHash = (list, seed) => [...list].sort((a, b) => hashNum(seed + a) - hashNum(seed + b));   // urutan "acak" yang selalu sama
+
+function collectQuestions() {
+  if (!CHAPTERS[0].vocab) buildVocab();
+  const scope = getSentences();
+  const chapters = [...new Set(scope.map(s => s.chapter))];
+  const allSentences = CHAPTERS.flatMap(c => c.sentences);
+  const wordsOf = c => c.vocab.map(v => v.jp);
+  const allWords = CHAPTERS.flatMap(wordsOf);
+  const allMeanings = allSentences.map(s => s.meaning);
+  const g = { id2jp: [], jp2id: [], kalimat_benar: [], temukan_salah: [], dua_partikel: [], partikel: [], isi: [], situasi: [],
+              tanggal: [], jam: [], harga: [], arti: [], kata: [] };
+  let src = null;                                                                    // kalimat / kata yang sedang dibuatkan soal
+  const add = (type, question, answer, wrongs, explanation) => {
+    const w = [...new Set(wrongs)].filter(x => x !== answer).slice(0, 3);      // wajib 3 pilihan salah yang berbeda
+    if (w.length === 3) g[type].push({ question, answer, explanation, src, options: shuffle([answer, ...w]) });
+  };
+  const sameKind = (list, w) => list.filter(x => x !== w && kindOf(x) === kindOf(w));
+  const gloss = w => MEANING[w] || GLOSSARY[w] || "";
+  const core = m => m.split(/ \/| \(/)[0].toLowerCase();                           // arti inti sebuah kata
+
+  scope.forEach(s => {
+    src = s.jp;
+    const near = wordsOf(s.chapter), words = s.tokens.map(clean);
+    const info = `${s.jp} (${s.romaji}) berarti "${s.meaning}".<br><i>Bunpou:</i> ${s.chapter.grammar}`;
+    const withToken = (k, r) => s.tokens.map((x, i) => (i === k ? r + x.slice(words[i].length) : x)).join("");
+    const pk = words.map((w, k) => k).filter(k => BLANK_PARTICLES.includes(words[k]));
+    const wrongP = (p, seed) => byHash(BLANK_PARTICLES.filter(x => x !== p && !sameGroup(x, p)), seed);
+    const ask = blank => `「${blank}」<br><span class="mu">Artinya: "${s.meaning}"</span>`;
+
+    /* arti kalimat: pilihan = kalimat Indonesia yang sama dengan satu kata diganti */
+    const mv = new Set(), low = s.meaning.toLowerCase();
+    s.slots.forEach(k => {
+      const w = words[k], key = core(gloss(w)), at = low.indexOf(key);
+      if (key.length < 3 || at < 0) return;
+      shuffle(sameKind(near, w)).slice(0, 5).forEach(r => {
+        const rm = core(gloss(r));
+        if (rm && rm !== key) mv.add(s.meaning.slice(0, at) + rm + s.meaning.slice(at + key.length));
+      });
+    });
+    add("jp2id", `Apa arti 「${s.jp}」?`, s.meaning,
+      [...shuffle([...mv]), ...pickDistractors(s.chapter.sentences.map(x => x.meaning), allMeanings, s.meaning)], `Jawaban benar: <b>${s.meaning}</b>. ${info}`);
+
+    /* arti -> kalimat Jepang; pilihan lain = kalimat yang sama dengan satu kata diganti */
+    const variants = new Set();
+    s.slots.filter(k => isWord(words[k])).forEach(k => {
+      const w = words[k];
+      shuffle(sameKind(near, w)).concat(shuffle(sameKind(allWords, w))).filter(r => !words.includes(r)).slice(0, 4).forEach(r => variants.add(withToken(k, r)));
+    });
+    variants.delete(s.jp);
+    add("id2jp", `Manakah kalimat yang berarti: "${s.meaning}"?`, s.jp,
+      [...shuffle([...variants]), ...pickDistractors(s.chapter.sentences.map(x => x.jp), allSentences.map(x => x.jp), s.jp)], `Jawaban benar: <b>${s.jp}</b>. ${info}`);
+
+    if (pk.length) {
+      /* kalimat mana yang benar secara tata bahasa (satu partikel diganti pada pilihan salah) */
+      const k = pk[hashNum(s.jp) % pk.length], p = words[k];
+      add("kalimat_benar", `Manakah kalimat yang benar secara tata bahasa?<br><span class="mu">Artinya: "${s.meaning}"</span>`, s.jp,
+        wrongP(p, s.jp + k).map(r => withToken(k, r)),
+        `Jawaban benar: <b>${s.jp}</b>. Kata ke-${k + 1} memakai <b>${p}</b> = ${PARTICLE_ROLE[p]}.<br>${info}`);
+
+      /* temukan partikel yang salah */
+      if (s.tokens.length >= 4) {
+        const k2 = pk[hashNum(s.jp + "t") % pk.length], p2 = words[k2], q = wrongP(p2, s.jp + "t")[0];
+        const shown = s.tokens.map((x, i) => (i === k2 ? q + x.slice(words[i].length) : x)).join(" ");
+        const label = i => `kata ke-${i + 1}: ${i === k2 ? q : words[i]}`;
+        add("temukan_salah", `Ada satu partikel yang salah pada kalimat berikut. Temukan!<br>「${shown}」<br><span class="mu">Artinya: "${s.meaning}"</span>`,
+          label(k2), byHash(words.map((w, i) => i).filter(i => i !== k2), s.jp + "o").map(label),
+          `Yang salah: kata ke-${k2 + 1} (${q}). Seharusnya <b>${p2}</b> = ${PARTICLE_ROLE[p2]}.<br>${info}`);
+      }
+
+      /* dua partikel sekaligus */
+      if (pk.length >= 2) {
+        const [a, b] = pk, pa = words[a], pb = words[b];
+        const qa = wrongP(pa, s.jp + "a")[0], qb = wrongP(pb, s.jp + "b")[0];
+        const blank = s.tokens.map((x, i) => (i === a || i === b ? "＿＿＿" + x.slice(words[i].length) : x)).join("");
+        add("dua_partikel", `Lengkapi dua partikel (berurutan): ${ask(blank)}`, `${pa} ・ ${pb}`,
+          [`${pb} ・ ${pa}`, `${qa} ・ ${pb}`, `${pa} ・ ${qb}`, `${qa} ・ ${qb}`],
+          `Kata ke-${a + 1}: <b>${pa}</b> = ${PARTICLE_ROLE[pa]}. Kata ke-${b + 1}: <b>${pb}</b> = ${PARTICLE_ROLE[pb]}.<br>${info}`);
+      }
+    }
+
+    s.tokens.forEach((t, k) => {
+      const w = words[k], tail = t.slice(w.length);
+      const blank = s.tokens.map((x, i) => (i === k ? "＿＿＿" + tail : x)).join("");
+      if (BLANK_PARTICLES.includes(w)) {
+        add("partikel", `Pilih partikel yang tepat: ${ask(blank)}`, w, shuffle(BLANK_PARTICLES.filter(x => x !== w && !sameGroup(x, w))), `Partikel <b>${w}</b> = ${PARTICLE_ROLE[w]}.<br>${info}`);
+      } else if (s.slots.includes(k) && isWord(w)) {
+        add("isi", `Lengkapi kalimat: ${ask(blank)}`, w,
+          [...pickDistractors(sameKind(near, w), sameKind(allWords, w), w)], `Jawaban benar: <b>${w}</b> (${GLOSSARY[w]}).<br>${info}`);
+      }
+    });
+  });
+
+  chapters.forEach(c => {
+    const near = wordsOf(c);
+    c.vocab.forEach(v => {           // kosakata: kata dari kalimat + kosakata tambahan bab
+      src = v.jp;
+      const eg = v.example ? `<br>Contoh: ${v.example}.<br><i>Bunpou:</i> ${c.grammar}` : `<br><i>Kosakata Bab ${c.no}.</i>`;
+      const note = `「${v.jp}」${v.romaji ? ` (${v.romaji})` : ""} berarti <b>${v.meaning}</b>.${eg}`;
+      add("arti", `Apa arti kata 「${v.jp}」?`, v.meaning, pickDistractors(near.map(meaningOf), allWords.map(meaningOf), v.meaning), note);
+      add("kata", `Kata Jepang manakah yang berarti "${v.meaning}"?`, v.jp, pickDistractors(near, allWords, v.jp), note);
+    });
+    c.qa.forEach(([q, right, ...rest]) => { const why = rest.pop(); src = "qa:" + q; add("situasi", q, right, rest, why); });
+  });
+
+  if (chapters.some(c => c.dates)) g.tanggal = dateQuestions();
+  if (chapters.some(c => c.time)) g.jam = timeQuestions();
+  if (chapters.some(c => c.price)) g.harga = priceQuestions();
+  return g;
+}
+
+/* ---------- riwayat soal yang sudah keluar ----------
+   Disimpan di browser. Bila penyimpanan diblokir, riwayat tetap dijaga di memori selama halaman terbuka. */
+const store = (() => {
+  const mem = {};
+  let ok = true;
+  try { localStorage.setItem("nihongo-test", "1"); localStorage.removeItem("nihongo-test"); } catch (e) { ok = false; }
+  return {
+    ok,
+    get(k) { if (k in mem) return mem[k]; try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { mem[k] = v; try { localStorage.setItem(k, v); } catch (e) {} },
+    del(k) { delete mem[k]; try { localStorage.removeItem(k); } catch (e) {} },
+  };
+})();
+const loadSet = k => { try { return new Set(JSON.parse(store.get(k)) || []); } catch (e) { return new Set(); } };
+const saveSet = (k, set) => store.set(k, JSON.stringify([...set]));
+const SEEN_SRC_KEY = "nihongo-seen-src-v1", SEEN_ORDER_SRC_KEY = "nihongo-seen-order-src-v1", SEEN_KANA_KEY = "nihongo-seen-kana-v1";
+
+const SEEN_KEY = "nihongo-seen-v1";
+const hashKey = s => { let n = 5381; for (const c of s) n = ((n << 5) + n + c.charCodeAt(0)) | 0; return (n >>> 0).toString(36); };
+const qKey = q => hashKey(q.question + "|" + q.answer);      // soal yang sama selalu berkunci sama
+const loadSeen = () => loadSet(SEEN_KEY);
+const saveSeen = set => saveSet(SEEN_KEY, set);
+const srcKey = q => hashKey(q.src || qKey(q));              // sumber soal: kalimat / kata yang ditanyakan
+function markSeen(q) {
+  const s = loadSeen(); s.add(qKey(q)); saveSeen(s);
+  const r = loadSet(SEEN_SRC_KEY); r.add(srcKey(q)); saveSet(SEEN_SRC_KEY, r);
+}
+
+/* Semua soal unik untuk bab terpilih */
+function poolQuestions() {
+  const all = collectQuestions(), map = new Map();
+  Object.values(all).flat().forEach(q => map.set(qKey(q), q));
+  return map;
+}
+function unseenCount() {
+  const seen = loadSeen();
+  return [...poolQuestions().keys()].filter(k => !seen.has(k)).length;
+}
+function resetSeen() {                          // hanya soal pada bab terpilih yang dikembalikan
+  const seen = loadSeen(), srcs = loadSet(SEEN_SRC_KEY);
+  poolQuestions().forEach((q, k) => { seen.delete(k); srcs.delete(srcKey(q)); });
+  saveSeen(seen);
+  saveSet(SEEN_SRC_KEY, srcs);
+  state.quiz.items = [];
+  renderQuiz();
+}
+
+/* Pilih soal bergantian antar jenis, hanya yang belum pernah keluar.
+   Soal analisis (tata bahasa, kesalahan, bacaan) diutamakan; soal hafalan kata hanya mengisi sisa. */
+function buildQuiz() {
+  const all = collectQuestions();
+  const hard = ["id2jp", "jp2id", "kalimat_benar", "temukan_salah", "dua_partikel", "partikel", "isi", "situasi", "tanggal", "jam", "harga", "tanggal", "jam", "harga"];
+  const hardGroups = hard.map(k => shuffle(all[k])), easyGroups = ["arti", "kata"].map(k => shuffle(all[k]));
+  const seenBefore = loadSeen(), seenSrc = loadSet(SEEN_SRC_KEY), picked = new Set(), inQuiz = new Set(), items = [];
+  /* level 0: kalimat / kata yang belum pernah dipakai; 1: boleh yang pernah dipakai (tapi bentuk soal baru); 2: boleh kalimat sama dalam satu sesi */
+  const fill = (groups, level) => {
+    let progress = true;
+    const allowed = q => {
+      const k = qKey(q), sk = srcKey(q);
+      if (picked.has(k) || seenBefore.has(k)) return false;                // soal yang sama tidak pernah keluar lagi
+      if (level < 2 && inQuiz.has(sk)) return false;                       // satu kalimat hanya sekali per sesi
+      if (level < 1 && seenSrc.has(sk)) return false;                      // utamakan kalimat yang belum pernah dipakai
+      return true;
+    };
+    while (items.length < QUIZ_SIZE && progress) {
+      progress = false;
+      for (const g of groups) {
+        for (let i = g.length - 1; i >= 0; i--) {
+          const q = g[i];
+          if (!allowed(q)) continue;
+          g.splice(i, 1);
+          picked.add(qKey(q)); inQuiz.add(srcKey(q)); items.push(q); progress = true;
+          break;
+        }
+        if (items.length >= QUIZ_SIZE) break;
+      }
+    }
+  };
+  [[hardGroups, 0], [hardGroups, 1], [easyGroups, 0], [easyGroups, 1], [hardGroups, 2], [easyGroups, 2]].forEach(([g, level]) => fill(g, level));
+  state.quiz = { items: shuffle(items), index: 0, score: 0, answered: false };
+}
+
+function renderQuiz() {
+  enter();
+  if (!state.quiz.items.length) buildQuiz();
+  const { items, index, score } = state.quiz;
+
+  if (!items.length) {                             // semua soal bab ini sudah pernah keluar
+    $("v").innerHTML = `
+      <div class="box"><h2>Semua soal sudah keluar</h2>
+        <p class="mu">Setiap soal pada pilihan ini sudah pernah ditampilkan. Mulai dari awal untuk mengulang semuanya.</p>
+        <button class="pri" onclick="resetSeen()">Mulai dari awal</button></div>`;
+    saveState();
+    return;
+  }
+
+  if (index >= items.length) {
+    $("v").innerHTML = `
+      <div class="box">${scoreBlock(score, items.length)}
+      <p class="mu">${unseenCount() ? `Soal baru yang tersisa: ${unseenCount()}.` : "Semua soal pada pilihan ini sudah keluar."}</p>
+      <button class="pri" onclick="state.quiz.items=[];renderQuiz()">Ulangi</button></div>`;
+    saveState();
+    return;
+  }
+
+  const q = items[index];
+  markSeen(q);                                     // soal ini tidak akan keluar lagi
+  state.quiz.answered = false;
+  $("v").innerHTML = `
+    <div class="box">
+      <div class="mu">Soal ${index + 1}/${items.length}</div>
+      <div class="bar"><i style="width:${((index + 1) / items.length) * 100}%;--from:${(index / items.length) * 100}%"></i></div>
+      <p style="font-size:18px">${q.question}</p>
+      ${q.options.map((o, k) => `<button class="opt" style="--n:${k}" onclick="answerQuiz(${k})">${o}</button>`).join("")}
+      <div id="ex"></div>
+    </div>`;
+
+  if (q.chosen !== undefined) showQuizFeedback();   // soal sudah dijawab sebelum refresh
+  saveState();
+}
+
+function answerQuiz(k) {
+  if (state.quiz.answered) return;
+  const q = state.quiz.items[state.quiz.index];
+  q.chosen = k;
+  if (q.options[k] === q.answer) state.quiz.score++;
+  showQuizFeedback();
+  saveState();
+}
+
+function showQuizFeedback() {
+  state.quiz.answered = true;
+  const q = state.quiz.items[state.quiz.index];
+  const k = q.chosen;
+  const correct = q.options[k] === q.answer;
+
+  document.querySelectorAll(".opt").forEach((btn, i) => {
+    if (q.options[i] === q.answer) { btn.classList.add("ok"); btn.insertAdjacentHTML("beforeend", MARU); }
+    else if (i === k) btn.classList.add("no");
+  });
+
+  $("ex").innerHTML = `
+    <div class="ex"><b class="${correct ? "yes" : "nope"}">${correct ? "Benar." : "Kurang tepat."}</b> ${q.explanation}</div>
+    <div class="row"><span></span>
+      <button class="pri" onclick="state.quiz.index++;renderQuiz()">Lanjut</button>
+    </div>`;
+}
+
+/* =========================================================
+   8. GAME SUSUN KATA
+   ========================================================= */
+/* Riwayat soal Susun Kata yang sudah keluar (tersimpan di browser, terpisah dari kuis) */
+const SEEN_ORDER_KEY = "nihongo-seen-order-v1";
+const loadSeenOrder = () => loadSet(SEEN_ORDER_KEY);
+const saveSeenOrder = set => saveSet(SEEN_ORDER_KEY, set);
+
+/* Gaya soal: tiap kalimat bisa muncul dalam beberapa gaya */
+const ORDER_MODES = {
+  jp:  { label: "Susun kalimat Jepang sesuai artinya" },
+  jpr: { label: "Susun kalimat Jepang dari bacaannya" },
+  ro:  { label: "Susun bacaan (romaji) kalimat ini" },
+  id:  { label: "Susun terjemahan kalimat ini" },
+};
+const orderTarget = (s, mode) => (mode === "ro" ? s.romaji.split(" ") : mode === "id" ? s.meaning.split(" ") : s.tokens);
+
+/* Semua soal yang mungkin (kunci gaya "jp" sama dengan riwayat versi sebelumnya) */
+function orderPool() {
+  return getSentences().flatMap(s => Object.keys(ORDER_MODES)
+    .filter(mode => orderTarget(s, mode).length >= 3)
+    .map(mode => ({ s, mode, key: hashKey(mode === "jp" ? s.jp : s.jp + "|" + mode) })));
+}
+
+function resetSeenOrder() {                       // hanya soal pada bab terpilih yang dikembalikan
+  const seen = loadSeenOrder(), used = loadSet(SEEN_ORDER_SRC_KEY);
+  orderPool().forEach(x => { seen.delete(x.key); used.delete(hashKey(x.s.jp)); });
+  saveSeenOrder(seen);
+  saveSet(SEEN_ORDER_SRC_KEY, used);
+  newOrderQuestion();
+}
+
+function newOrderQuestion() {
+  enter();
+  const seen = loadSeenOrder();
+  const pool = orderPool().filter(x => !seen.has(x.key));
+
+  if (!pool.length) {                             // semua soal sudah keluar
+    state.order = null;
+    $("v").innerHTML = `
+      <div class="box"><h2>Semua soal sudah keluar</h2>
+        <p class="mu">Setiap soal pada pilihan ini sudah pernah ditampilkan. Mulai dari awal untuk mengulang semuanya.</p>
+        <button class="pri" onclick="resetSeenOrder()">Mulai dari awal</button></div>`;
+    saveState();
+    return;
+  }
+
+  const used = loadSet(SEEN_ORDER_SRC_KEY);
+  const novel = pool.filter(x => !used.has(hashKey(x.s.jp)));            // utamakan kalimat yang belum pernah dipakai dalam gaya apa pun
+  const base = novel.length ? novel : pool;
+  const fresh = base.filter(x => x.s.jp !== state.lastOrderJp);          // usahakan bukan kalimat yang sama dengan soal sebelumnya
+  const list = fresh.length ? fresh : base;
+  const { s: sentence, mode, key } = list[Math.floor(Math.random() * list.length)];
+  seen.add(key);                                  // soal ini tidak akan keluar lagi
+  saveSeenOrder(seen);
+  const usedSrc = loadSet(SEEN_ORDER_SRC_KEY);
+  usedSrc.add(hashKey(sentence.jp));
+  saveSet(SEEN_ORDER_SRC_KEY, usedSrc);
+  state.lastOrderJp = sentence.jp;
+
+  const target = orderTarget(sentence, mode);
+  state.order = {
+    sentence, mode, target,
+    left: pool.length - 1,                        // sisa soal
+    picked: [],
+    bank: shuffle(target.map((t, i) => ({ t, i }))),      // hanya kata yang dipakai
+  };
+  renderOrderGame();
+}
+
+function renderOrderGame() {
+  if (!state.order) return newOrderQuestion();
+  const { sentence, picked, bank } = state.order;
+
+  $("v").innerHTML = `
+    <div class="box">
+      <div class="mu" style="display:flex;justify-content:space-between;gap:12px">
+        <span>${ORDER_MODES[state.order.mode || "jp"].label}</span>
+        <span style="white-space:nowrap">Sisa soal: ${state.order.left ?? 0}</span>
+      </div>
+      ${{ jp: `<p style="font-size:18px">"${sentence.meaning}"</p>`,
+          jpr: `<p style="font-size:18px">${sentence.romaji}</p>`,
+          ro: `<p class="jp" style="font-size:22px">${sentence.jp}</p>`,
+          id: `<p class="jp" style="font-size:22px">${sentence.jp}</p>` }[state.order.mode || "jp"]}
+      <div class="ans">
+        ${picked.map((x, n) => `<button class="chip" data-w="${x.i}" style="--i:${n}" onclick="removeWord(${x.i})">${x.t}</button>`).join("")}
+      </div>
+      <div>
+        ${bank.filter(x => !picked.includes(x))
+              .map(x => `<button class="chip" data-w="${x.i}" onclick="addWord(${x.i})">${x.t}</button>`).join("")}
+      </div>
+      <div id="res"></div>
+      <div class="row">
+        <button onclick="flipChips(() => { state.order.picked = []; })">Reset</button>
+        <button onclick="checkOrder()">Cek jawaban</button>
+        <button class="pri" onclick="newOrderQuestion()">Soal baru</button>
+      </div>
+    </div>`;
+  saveState();
+}
+
+/* Jalankan perubahan lalu animasikan setiap kata dari posisi lama ke posisi barunya (teknik FLIP) */
+function flipChips(change) {
+  const before = new Map([...document.querySelectorAll("[data-w]")].map(el => [el.dataset.w, el.getBoundingClientRect()]));
+  change();
+  renderOrderGame();
+
+  const calm = matchMedia("(prefers-reduced-motion: reduce)").matches && document.documentElement.dataset.motion !== "full";
+  if (calm) return;
+  document.querySelectorAll("[data-w]").forEach(el => {
+    const a = before.get(el.dataset.w);
+    if (!a) return;
+    const b = el.getBoundingClientRect();
+    const dx = a.left - b.left, dy = a.top - b.top;
+    if (!dx && !dy) return;
+    el.style.zIndex = 3;                                   // kata yang bergerak berada di atas kata lain
+    el.animate(
+      [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "none" }],
+      { duration: 320, easing: "cubic-bezier(.2,.8,.3,1)" }
+    ).onfinish = () => { el.style.zIndex = ""; };
+  });
+}
+
+function addWord(i) {
+  flipChips(() => state.order.picked.push(state.order.bank.find(x => x.i === i)));
+}
+
+function removeWord(i) {
+  flipChips(() => { state.order.picked = state.order.picked.filter(x => x.i !== i); });
+}
+
+function checkOrder() {
+  const { sentence, picked, target, mode } = state.order;
+  const correct = picked.map(x => x.t).join(" ") === target.join(" ");
+  const jpMode = mode === "jp" || mode === "jpr";
+  $("res").innerHTML = `
+    <div class="ex"><b class="${correct ? "yes" : "nope"}">${correct ? "Benar." : "Belum tepat."}</b>
+      Susunan benar: <b>${jpMode ? sentence.jp : target.join(" ")}</b><br>
+      ${sentence.jp} (${sentence.romaji}) = "${sentence.meaning}"<br>
+      <i>Bunpou:</i> ${sentence.chapter.grammar}</div>`;
+
+  const ans = document.querySelector(".ans");
+  if (ans) {
+    ans.classList.remove("wave", "shake");
+    void ans.offsetWidth;                       // mulai ulang animasi
+    ans.classList.add(correct ? "wave" : "shake");
+  }
+}
+
+/* =========================================================
+   8c. HIRAGANA DAN KATAKANA
+   Data ditulis sekali dalam hiragana; katakana dihitung dari kode huruf.
+   "-" = kotak kosong.
+   ========================================================= */
+const KANA_GROUPS = [
+  { name: "Huruf dasar", cols: 5, data:
+    "あ=a,い=i,う=u,え=e,お=o,か=ka,き=ki,く=ku,け=ke,こ=ko,さ=sa,し=shi,す=su,せ=se,そ=so," +
+    "た=ta,ち=chi,つ=tsu,て=te,と=to,な=na,に=ni,ぬ=nu,ね=ne,の=no,は=ha,ひ=hi,ふ=fu,へ=he,ほ=ho," +
+    "ま=ma,み=mi,む=mu,め=me,も=mo,や=ya,-,ゆ=yu,-,よ=yo,ら=ra,り=ri,る=ru,れ=re,ろ=ro," +
+    "わ=wa,-,-,-,を=wo,ん=n,-,-,-,-" },
+  { name: "Dakuten dan handakuten", cols: 5, data:
+    "が=ga,ぎ=gi,ぐ=gu,げ=ge,ご=go,ざ=za,じ=ji,ず=zu,ぜ=ze,ぞ=zo,だ=da,ぢ=ji,づ=zu,で=de,ど=do," +
+    "ば=ba,び=bi,ぶ=bu,べ=be,ぼ=bo,ぱ=pa,ぴ=pi,ぷ=pu,ぺ=pe,ぽ=po" },
+  { name: "Gabungan (youon)", cols: 3, data:
+    "きゃ=kya,きゅ=kyu,きょ=kyo,しゃ=sha,しゅ=shu,しょ=sho,ちゃ=cha,ちゅ=chu,ちょ=cho," +
+    "にゃ=nya,にゅ=nyu,にょ=nyo,ひゃ=hya,ひゅ=hyu,ひょ=hyo,みゃ=mya,みゅ=myu,みょ=myo," +
+    "りゃ=rya,りゅ=ryu,りょ=ryo,ぎゃ=gya,ぎゅ=gyu,ぎょ=gyo,じゃ=ja,じゅ=ju,じょ=jo," +
+    "びゃ=bya,びゅ=byu,びょ=byo,ぴゃ=pya,ぴゅ=pyu,ぴょ=pyo" },
+];
+KANA_GROUPS.forEach(g => { g.cells = g.data.split(",").map(x => (x === "-" ? null : x.split("="))); });
+
+const toKatakana = s => [...s].map(c => String.fromCharCode(c.charCodeAt(0) + 0x60)).join("");
+const kanaOf = (hira, script) => (script === "kata" ? toKatakana(hira) : hira);
+
+function setKana(patch) {
+  Object.assign(state.kana, patch);
+  state.kana.fx = "script" in patch || patch.mode === "chart";   // animasi huruf muncul hanya saat tabel dibuka/diganti
+  renderKana();
+}
+
+function renderKana() {
+  if (state.kana.mode === "drill") renderKanaDrill();
+  else renderKanaChart();
+}
+
+/* --- tabel huruf --- */
+function renderKanaChart() {
+  const k = state.kana;
+  const groups = KANA_GROUPS.map(g => `
+    <div class="kgroup">
+      <h3>${g.name}</h3>
+      <div class="kgrid ${k.hide ? "hide" : ""} ${k.fx ? "fx" : ""}" style="--cols:${g.cols}">
+        ${g.cells.map((c, n) => c
+          ? `<button class="kc" style="--n:${n}" onclick="this.classList.toggle('shown')"><b>${kanaOf(c[0], k.script)}</b><small>${c[1]}</small></button>`
+          : `<span class="kc empty"></span>`).join("")}
+      </div>
+    </div>`).join("");
+
+  $("v").innerHTML = `
+    <div class="box">
+      <div class="row" style="margin-top:0;justify-content:flex-start;flex-wrap:wrap">
+        <button class="${k.script === "hira" ? "on" : ""}" onclick="setKana({script:'hira'})">Hiragana</button>
+        <button class="${k.script === "kata" ? "on" : ""}" onclick="setKana({script:'kata'})">Katakana</button>
+        <button class="${k.hide ? "on" : ""}" onclick="setKana({hide:!state.kana.hide})">Sembunyikan romaji</button>
+      </div>
+      <p class="mu">${k.hide ? "Ketuk sebuah huruf untuk melihat bacaannya." : "Sembunyikan romaji untuk menguji hafalanmu."}</p>
+      ${groups}
+      <div class="row"><span></span><button class="pri" onclick="startKanaDrill();renderKana()">Latihan membaca</button></div>
+    </div>`;
+  k.fx = false;
+  saveState();
+}
+
+/* --- latihan membaca: 15 soal; tiap huruf muncul dalam dua gaya (huruf -> bacaan, bacaan -> huruf), tidak berulang --- */
+function kanaPool() {
+  const seen = new Set();                         // ぢ dan づ dilewati karena bacaannya sama dengan じ dan ず
+  const cells = KANA_GROUPS.flatMap(g => g.cells.filter(Boolean)).filter(([, r]) => !seen.has(r) && seen.add(r));
+  return cells.flatMap(([hira, romaji]) => [0, 1].map(dir => ({ hira, romaji, dir })));
+}
+const kanaKey = x => `${state.kana.script}|${x.romaji}|${x.dir}`;
+
+function startKanaDrill() {
+  const k = state.kana, done = loadSet(SEEN_KANA_KEY);
+  const all = kanaPool(), pool = all.filter(x => !done.has(kanaKey(x)));
+  const cells = [...new Map(all.map(x => [x.romaji, [x.hira, x.romaji]])).values()];
+
+  const items = shuffle(pool).slice(0, 15).map(({ hira, romaji, dir }) => {
+    const kana = kanaOf(hira, k.script), key = kanaKey({ romaji, dir });
+    const wrong = shuffle(cells.filter(c => c[1] !== romaji)).slice(0, 3);
+    const explanation = `${hira} (hiragana) dan ${toKatakana(hira)} (katakana) dibaca <b>${romaji}</b>.`;
+    return dir
+      ? { key, question: `Manakah huruf untuk bunyi "${romaji}"?`, answer: kana,
+          options: shuffle([kana, ...wrong.map(c => kanaOf(c[0], k.script))]), explanation }
+      : { key, question: `Bagaimana cara membaca 「${kana}」?`, answer: romaji,
+          options: shuffle([romaji, ...wrong.map(c => c[1])]), explanation };
+  });
+  k.drill = { items, index: 0, score: 0, answered: false };
+  k.mode = "drill";
+}
+
+function markSeenKana(q) {
+  if (!q.key) return;
+  const s = loadSet(SEEN_KANA_KEY); s.add(q.key); saveSet(SEEN_KANA_KEY, s);
+}
+
+function resetSeenKana() {                        // hanya untuk jenis huruf yang sedang dipilih
+  const s = loadSet(SEEN_KANA_KEY);
+  kanaPool().forEach(x => s.delete(kanaKey(x)));
+  saveSet(SEEN_KANA_KEY, s);
+  startKanaDrill();
+  renderKana();
+}
+
+function renderKanaDrill() {
+  enter();
+  const d = state.kana.drill;
+  if (!d) return setKana({ mode: "chart" });
+
+  if (!d.items.length) {                           // semua soal jenis huruf ini sudah keluar
+    $("v").innerHTML = `
+      <div class="box"><h2>Semua soal sudah keluar</h2>
+        <p class="mu">Semua soal ${state.kana.script === "kata" ? "katakana" : "hiragana"} sudah pernah ditampilkan. Mulai dari awal untuk mengulang.</p>
+        <div class="row" style="justify-content:flex-start">
+          <button class="pri" onclick="resetSeenKana()">Mulai dari awal</button>
+          <button onclick="setKana({mode:'chart'})">Kembali ke tabel</button>
+        </div></div>`;
+    saveState();
+    return;
+  }
+
+  if (d.index >= d.items.length) {
+    $("v").innerHTML = `
+      <div class="box">${scoreBlock(d.score, d.items.length)}
+        <div class="row" style="justify-content:flex-start">
+          <button class="pri" onclick="startKanaDrill();renderKana()">Ulangi</button>
+          <button onclick="setKana({mode:'chart'})">Kembali ke tabel</button>
+        </div></div>`;
+    saveState();
+    return;
+  }
+
+  const q = d.items[d.index];
+  markSeenKana(q);                                 // soal ini tidak akan keluar lagi
+  d.answered = false;
+  $("v").innerHTML = `
+    <div class="box">
+      <div class="mu">Soal ${d.index + 1}/${d.items.length}</div>
+      <div class="bar"><i style="width:${((d.index + 1) / d.items.length) * 100}%;--from:${(d.index / d.items.length) * 100}%"></i></div>
+      <p style="font-size:18px">${q.question}</p>
+      ${q.options.map((o, k) => `<button class="opt" style="--n:${k}" onclick="answerKana(${k})">${o}</button>`).join("")}
+      <div id="ex"></div>
+      <div class="row"><button onclick="setKana({mode:'chart'})">Kembali ke tabel</button><span></span></div>
+    </div>`;
+
+  if (q.chosen !== undefined) showKanaFeedback();
+  saveState();
+}
+
+function answerKana(k) {
+  const d = state.kana.drill;
+  if (d.answered) return;
+  const q = d.items[d.index];
+  q.chosen = k;
+  if (q.options[k] === q.answer) d.score++;
+  showKanaFeedback();
+  saveState();
+}
+
+function showKanaFeedback() {
+  const d = state.kana.drill;
+  d.answered = true;
+  const q = d.items[d.index], k = q.chosen;
+  const correct = q.options[k] === q.answer;
+
+  document.querySelectorAll(".opt").forEach((btn, i) => {
+    if (q.options[i] === q.answer) { btn.classList.add("ok"); btn.insertAdjacentHTML("beforeend", MARU); }
+    else if (i === k) btn.classList.add("no");
+  });
+  $("ex").innerHTML = `
+    <div class="ex"><b class="${correct ? "yes" : "nope"}">${correct ? "Benar." : "Kurang tepat."}</b> ${q.explanation}</div>
+    <div class="row"><span></span>
+      <button class="pri" onclick="state.kana.drill.index++;renderKanaDrill()">Lanjut</button>
+    </div>`;
+}
+
+/* =========================================================
+   8b. ABOUT
+   ========================================================= */
+function renderAbout() {
+  const first = CHAPTERS[0], last = CHAPTERS[CHAPTERS.length - 1];
+
+  $("v").innerHTML = `
+    <div class="box about">
+      <h2>Tentang website ini</h2>
+      <p>Materi website ini dibuat dari buku pelajaran bahasa Jepang <b>Nihongo Kira-Kira</b>
+         untuk kelas 10 dan 11 SMA, dari Bab ${first.no} 「${first.title}」
+         sampai Bab ${last.no} 「${last.title}」.</p>
+
+      <div class="credit">
+        ${CREDIT_LOGOS.map(l => `
+          <figure>
+            ${l.src ? `<img src="${l.src}" alt="${l.alt}">` : `<div class="ph">Logo</div>`}
+            ${l.name ? `<figcaption>${l.name}</figcaption>` : ""}
+          </figure>`).join("")}
+      </div>
+
+      <dl>
+        <dt>Flashcard</dt><dd>Kalimat Jepang, romaji, arti, dan arti tiap kata.</dd>
+        <dt>Bunpou</dt><dd>Ringkasan tata bahasa dan contoh kalimat untuk tiap bab.</dd>
+        <dt>Kuis</dt><dd>${QUIZ_SIZE} soal per sesi tingkat SMA: memilih kalimat yang benar, menemukan kesalahan, membaca tanggal / jam / harga, lengkap dengan penjelasan.</dd>
+        <dt>Susun Kata</dt><dd>Empat gaya soal: menyusun kalimat Jepang dari arti atau bacaannya, menyusun romaji, dan menyusun terjemahan.</dd>
+        <dt>Hiragana dan Katakana</dt><dd>Tabel huruf dengan bacaan (bisa disembunyikan untuk menguji hafalan) dan latihan membaca.</dd>
+      </dl>
+
+      <p>Urutan belajar yang disarankan untuk satu bab:</p>
+      <ol>
+        <li>Baca penjelasan di Bunpou.</li>
+        <li>Hafalkan kalimat dan arti kata di Flashcard.</li>
+        <li>Latih urutan kata di Susun Kata.</li>
+        <li>Uji pemahaman lewat Kuis, lalu baca penjelasan jawabannya.</li>
+      </ol>
+
+      <p><b>Animasi</b><br>
+         <span class="mu">Jika perangkatmu memakai pengaturan "kurangi gerakan", animasi hanya berupa efek memudar.
+         Aktifkan animasi penuh untuk menampilkan semua gerak.</span></p>
+      <button onclick="toggleMotion()">${document.documentElement.dataset.motion === "full" ? "Matikan animasi penuh" : "Aktifkan animasi penuh"}</button>
+
+      ${store.ok ? "" : '<p class="mu">Penyimpanan browser tidak tersedia, jadi riwayat soal hanya berlaku selama halaman ini terbuka.</p>'}
+      <p class="mu">Terjemahan, arti kata, dan ringkasan bunpou disusun sebagai alat bantu belajar.
+         Untuk penjelasan lengkap, tetap rujuk buku teks dan pengajar.</p>
+    </div>`;
+}
+
+initUI();
+</script>
+</body>
+</html>
